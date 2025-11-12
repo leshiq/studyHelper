@@ -73,9 +73,14 @@
                         @endphp
 
                         @if($canDownload)
-                        <a href="{{ route('file.download', $file) }}" class="btn btn-primary w-100">
-                            <i class="bi bi-download"></i> Download Video
-                        </a>
+                        <div class="d-grid gap-2">
+                            <a href="{{ route('video.watch', $file) }}" class="btn btn-primary">
+                                <i class="bi bi-play-circle"></i> Watch Online
+                            </a>
+                            <a href="{{ route('file.download', $file) }}" class="btn btn-outline-primary btn-sm">
+                                <i class="bi bi-download"></i> Download Video
+                            </a>
+                        </div>
                         @if($message)
                         <small class="text-muted d-block mt-2 text-center">{{ $message }}</small>
                         @endif

@@ -6,11 +6,13 @@ A Laravel-based web application for managing and distributing educational video 
 
 - **Student Authentication**: Secure login system for students to access their learning materials
 - **Role-Based Access Control**: Admin and student roles with different permissions
+- **Self-Registration**: One-click invitation links for easy student onboarding (expires in 24 hours)
+- **Video Streaming**: Watch lessons online with HTML5 player (keyboard shortcuts, progress saving)
 - **File Management**: Upload and manage video lesson files (admin only)
 - **Access Control**: Grant time-limited or permanent access to specific students
 - **Download Tracking**: Monitor who downloads files and when
 - **Download Limits**: Set maximum download counts per student per file
-- **Admin Dashboard**: Manage students, files, and access permissions
+- **Admin Dashboard**: Manage students, files, access permissions, and invitations
 - **Bootstrap UI**: Modern, responsive interface using Bootstrap 5
 - **Video Compression**: FFmpeg integration for efficient video storage
 
@@ -290,6 +292,46 @@ This is a custom educational platform. Modify as needed for your teaching requir
 For issues or questions about this platform, please refer to the Laravel documentation at https://laravel.com/docs
 
 ## Changelog
+
+### Version 1.1.0 (November 12, 2025)
+
+**New Features**
+
+#### Video Streaming
+- HTML5 video player with native controls
+- Watch lessons online without downloading
+- Keyboard shortcuts (Space, F, Arrow keys)
+- Automatic progress saving (resume where you left off)
+- Seek/skip functionality
+- Volume control
+- Fullscreen support
+- HTTP range request support for efficient streaming
+
+#### Self-Registration System
+- One-click invitation link generation
+- Temporary registration links (24-hour expiration)
+- Auto-expire when used
+- Student self-service registration
+- Beautiful gradient registration page
+- Admin tracking of invitation usage
+- Copy-to-clipboard functionality
+
+**Technical Improvements**
+- VideoStream service for chunked video delivery
+- StudentInvitation model with token management
+- Guest layout for public pages
+- Enhanced navigation with Invitations menu
+
+**Database Schema**
+- `student_invitations` table (token, expires_at, used_at, created_by, student_id)
+
+**User Experience**
+- Dashboard now shows "Watch Online" as primary action
+- Download still available as secondary option
+- Streamlined student onboarding process
+- No manual account creation needed
+
+---
 
 ### Version 1.0.0 (November 12, 2025)
 

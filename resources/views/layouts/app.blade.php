@@ -40,6 +40,11 @@
                             <i class="bi bi-people"></i> Students
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('admin.invitations.index') }}">
+                            <i class="bi bi-envelope-plus"></i> Invitations
+                        </a>
+                    </li>
                     @endif
                 </ul>
                 <div class="d-flex align-items-center text-white">
