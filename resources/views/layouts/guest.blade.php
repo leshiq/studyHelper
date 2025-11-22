@@ -13,17 +13,18 @@
     @stack('styles')
     
     <style>
+        html, body {
+            height: 100%;
+        }
         body {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
             display: flex;
-            align-items: center;
-            padding: 20px 0;
+            flex-direction: column;
         }
     </style>
 </head>
 <body>
-    <main class="flex-grow-1">
+    <main class="flex-grow-1 d-flex align-items-center py-4">
         @if(session('success'))
         <div class="container mb-3">
             <div class="alert alert-success alert-dismissible fade show" role="alert">

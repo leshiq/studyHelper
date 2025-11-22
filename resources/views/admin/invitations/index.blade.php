@@ -31,7 +31,7 @@
         <p class="mb-3">Share this link with the new student. It will expire in 24 hours or when used.</p>
         <div class="input-group mb-3">
             <input type="text" class="form-control" id="invitationLink" value="{{ $link }}" readonly>
-            <button class="btn btn-outline-secondary" type="button" onclick="copyLink()">
+            <button class="btn btn-outline-secondary" type="button" onclick="copyLink(event)">
                 <i class="bi bi-clipboard"></i> Copy
             </button>
         </div>
@@ -101,7 +101,7 @@
                             </td>
                             <td>
                                 @if($invitation->isValid())
-                                <button class="btn btn-sm btn-outline-primary" onclick="copyInvitation('{{ route('register.show', $invitation->token) }}')">
+                                <button class="btn btn-sm btn-outline-primary copy-invitation-btn" data-url="{{ route('register.show', $invitation->token) }}">
                                     <i class="bi bi-clipboard"></i>
                                 </button>
                                 @endif
@@ -131,29 +131,47 @@
 
 @push('scripts')
 <script>
-function copyLink() {
+function copyLink(event) {
     const input = document.getElementById('invitationLink');
-    input.select();
-    document.execCommand('copy');
+    const url = input.value;
     
-    const btn = event.target.closest('button');
-    const originalHTML = btn.innerHTML;
-    btn.innerHTML = '<i class="bi bi-check"></i> Copied!';
-    setTimeout(() => {
-        btn.innerHTML = originalHTML;
-    }, 2000);
-}
-
-function copyInvitation(url) {
     navigator.clipboard.writeText(url).then(() => {
         const btn = event.target.closest('button');
         const originalHTML = btn.innerHTML;
-        btn.innerHTML = '<i class="bi bi-check"></i>';
+        btn.innerHTML = '<i class="bi bi-check"></i> Copied!';
         setTimeout(() => {
             btn.innerHTML = originalHTML;
         }, 2000);
+    }).catch(err => {
+        console.error('Failed to copy:', err);
+        // Fallback for older browsers
+        input.select();
+        document.execCommand('copy');
+        const btn = event.target.closest('button');
+        btn.innerHTML = '<i class="bi bi-check"></i> Copied!';
+        setTimeout(() => {
+            btn.innerHTML = '<i class="bi bi-clipboard"></i> Copy';
+        }, 2000);
     });
 }
+
+// Event delegation for copy invitation buttons
+document.addEventListener('click', function(event) {
+    const btn = event.target.closest('.copy-invitation-btn');
+    if (btn) {
+        const url = btn.dataset.url;
+        navigator.clipboard.writeText(url).then(() => {
+            const originalHTML = btn.innerHTML;
+            btn.innerHTML = '<i class="bi bi-check"></i>';
+            setTimeout(() => {
+                btn.innerHTML = originalHTML;
+            }, 2000);
+        }).catch(err => {
+            console.error('Failed to copy:', err);
+            alert('Failed to copy link. Please copy manually.');
+        });
+    }
+});
 </script>
 @endpush
 @endsection

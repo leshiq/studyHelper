@@ -293,6 +293,29 @@ For issues or questions about this platform, please refer to the Laravel documen
 
 ## Changelog
 
+### Version 1.1.1 (November 22, 2025)
+
+**Bug Fixes**
+- Fixed login page showing navigation bar for authenticated users
+- Added automatic redirect to dashboard when logged-in users access login page
+- Modernized clipboard API in invitation management (replaced deprecated `document.execCommand`)
+- Fixed JavaScript syntax errors in invitation link copying functionality
+- Improved event handling with data attributes instead of inline onclick handlers
+
+**UI Improvements**
+- Login page now uses guest layout (no navigation bar)
+- Sticky footer implementation across all layouts using flexbox
+- Better error handling for clipboard operations with fallback support
+- Enhanced copy-to-clipboard feedback with visual confirmation
+
+**Technical Changes**
+- Refactored `LoginController::showLoginForm()` to check authentication state
+- Updated `auth/login.blade.php` to extend `layouts.guest` instead of `layouts.app`
+- Implemented event delegation for invitation copy buttons
+- Added CSS flexbox layout for footer positioning in both app and guest layouts
+
+---
+
 ### Version 1.1.0 (November 12, 2025)
 
 **New Features**
