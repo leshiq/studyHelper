@@ -69,6 +69,26 @@
             </div>
         </div>
 
+        <!-- WebSocket Testing -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 shadow-sm hover-card">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="icon-circle bg-warning bg-opacity-10 text-warning me-3">
+                            <i class="bi bi-diagram-3 fs-3"></i>
+                        </div>
+                        <h5 class="card-title mb-0">WebSocket Testing</h5>
+                    </div>
+                    <p class="card-text text-muted">
+                        Test WebSocket connections and real-time broadcasting with Laravel Reverb.
+                    </p>
+                    <a href="{{ route('superuser.settings.websocket-test') }}" class="btn btn-outline-warning btn-sm">
+                        <i class="bi bi-arrow-right-circle"></i> Open
+                    </a>
+                </div>
+            </div>
+        </div>
+
         <!-- System Configuration (Placeholder) -->
         <div class="col-md-6 col-lg-4">
             <div class="card h-100 shadow-sm hover-card opacity-50">

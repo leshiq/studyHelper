@@ -75,6 +75,10 @@ class VideoStreamController extends Controller
             abort(403, 'Your access to this file has expired.');
         }
 
-        return view('watch', compact('file'));
+        // Check if this file is part of a course lesson
+        $courseLesson = $file->courseLessons()->with('course')->first();
+        $course = $courseLesson ? $courseLesson->course : null;
+
+        return view('watch', compact('file', 'course'));
     }
 }

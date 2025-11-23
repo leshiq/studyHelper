@@ -100,6 +100,16 @@
             </a>
             @endif
             
+            @if(Auth::user()->is_teacher || Auth::user()->is_admin || Auth::user()->is_superuser)
+            <div class="menu-section">
+                <span>Teacher</span>
+            </div>
+            <a href="{{ route('teacher.courses.index') }}" class="menu-item {{ request()->routeIs('teacher.courses.*') ? 'active' : '' }}">
+                <i class="bi bi-journal-text"></i>
+                <span>My Courses</span>
+            </a>
+            @endif
+            
             @if(!Auth::user()->is_admin && !Auth::user()->is_superuser)
             <div class="menu-section">
                 <span>Student</span>
@@ -107,6 +117,10 @@
             <a href="{{ route('dashboard') }}" class="menu-item {{ request()->routeIs('dashboard') ? 'active' : '' }}">
                 <i class="bi bi-house"></i>
                 <span>My Lessons</span>
+            </a>
+            <a href="{{ route('courses.index') }}" class="menu-item {{ request()->routeIs('courses.*') ? 'active' : '' }}">
+                <i class="bi bi-book"></i>
+                <span>Courses</span>
             </a>
             @endif
         </div>

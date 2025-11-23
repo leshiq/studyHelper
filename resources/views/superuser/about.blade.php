@@ -26,7 +26,7 @@
                             <strong>Current Version:</strong>
                         </div>
                         <div class="col-md-8">
-                            <span class="badge bg-primary fs-6">v1.2.1</span>
+                            <span class="badge bg-primary fs-6">v1.3.0</span>
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -140,6 +140,18 @@
                             <i class="bi bi-check-circle-fill text-success"></i>
                             <strong>Security Features:</strong> Credential change enforcement, password policies
                         </li>
+                        <li class="mb-2">
+                            <i class="bi bi-check-circle-fill text-success"></i>
+                            <strong>Course Management:</strong> Create courses, organize lessons, enroll students
+                        </li>
+                        <li class="mb-2">
+                            <i class="bi bi-check-circle-fill text-success"></i>
+                            <strong>Real-time Chat:</strong> WebSocket-powered course discussions with Laravel Reverb
+                        </li>
+                        <li class="mb-2">
+                            <i class="bi bi-check-circle-fill text-success"></i>
+                            <strong>Video Streaming:</strong> Context-aware video player with course navigation
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -166,8 +178,14 @@
                     </div>
                     <div class="mb-3">
                         <div class="d-flex justify-content-between align-items-center">
+                            <span>Total Courses:</span>
+                            <span class="badge bg-info">{{ \App\Models\Course::count() }}</span>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between align-items-center">
                             <span>Total Files:</span>
-                            <span class="badge bg-info">{{ \App\Models\DownloadableFile::count() }}</span>
+                            <span class="badge bg-secondary">{{ \App\Models\DownloadableFile::count() }}</span>
                         </div>
                     </div>
                     <div>
@@ -187,8 +205,10 @@
                 <div class="card-body">
                     <ul class="list-unstyled mb-0">
                         <li class="mb-2"><i class="bi bi-arrow-right-circle"></i> Laravel Framework</li>
+                        <li class="mb-2"><i class="bi bi-arrow-right-circle"></i> Laravel Reverb (WebSocket)</li>
                         <li class="mb-2"><i class="bi bi-arrow-right-circle"></i> PostgreSQL Database</li>
                         <li class="mb-2"><i class="bi bi-arrow-right-circle"></i> Bootstrap 5.3</li>
+                        <li class="mb-2"><i class="bi bi-arrow-right-circle"></i> Pusher.js 8.2.0</li>
                         <li class="mb-2"><i class="bi bi-arrow-right-circle"></i> Nginx Web Server</li>
                         <li class="mb-2"><i class="bi bi-arrow-right-circle"></i> GD Image Library</li>
                         <li class="mb-2"><i class="bi bi-arrow-right-circle"></i> Intervention Image</li>

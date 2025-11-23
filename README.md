@@ -9,12 +9,15 @@ A Laravel-based web application for managing and distributing educational video 
 - **Student Authentication**: Secure login system for students to access their learning materials
 - **Role-Based Access Control**: Admin and student roles with different permissions
 - **Self-Registration**: One-click invitation links for easy student onboarding (expires in 24 hours)
+- **Course Management**: Organize lessons into courses, enroll students, track progress
+- **Real-time Chat**: WebSocket-powered course discussions using Laravel Reverb
 - **Video Streaming**: Watch lessons online with HTML5 player (keyboard shortcuts, progress saving)
+- **Context-Aware Navigation**: Smart back buttons that return to course context
 - **File Management**: Upload and manage video lesson files (admin only)
 - **Access Control**: Grant time-limited or permanent access to specific students
 - **Download Tracking**: Monitor who downloads files and when
 - **Download Limits**: Set maximum download counts per student per file
-- **Admin Dashboard**: Manage students, files, access permissions, and invitations
+- **Admin Dashboard**: Manage students, files, courses, access permissions, and invitations
 - **Bootstrap UI**: Modern, responsive interface using Bootstrap 5
 - **Video Compression**: FFmpeg integration for efficient video storage
 
@@ -22,7 +25,8 @@ A Laravel-based web application for managing and distributing educational video 
 
 - **Framework**: Laravel 12.x
 - **Database**: PostgreSQL
-- **Frontend**: Bootstrap 5.3
+- **WebSocket**: Laravel Reverb 1.6.1
+- **Frontend**: Bootstrap 5.3, Pusher.js 8.2.0
 - **PHP**: 8.2+
 
 ## Installation
@@ -294,6 +298,69 @@ This is a custom educational platform. Modify as needed for your teaching requir
 For issues or questions about this platform, please refer to the Laravel documentation at https://laravel.com/docs
 
 ## Changelog
+
+### Version 1.3.0 (November 23, 2025)
+
+**Course Management System**
+- Complete course creation and management for teachers
+- Course lesson organization - attach videos to courses
+- Student enrollment system - teachers can add students to courses
+- Course detail pages for both teachers and students
+- Lesson progress tracking within courses
+- Teacher course dashboard with enrollment management
+
+**Real-time Course Chat**
+- WebSocket-powered chat rooms for course discussions
+- Laravel Reverb WebSocket server integration
+- Pusher.js client library for real-time messaging
+- Chat interface for both teachers and students
+- Message persistence with PostgreSQL
+- Broadcasting infrastructure with public channels
+- Nginx WebSocket proxy configuration
+
+**Video Player Enhancements**
+- Context-aware back button in video watch page
+- Smart navigation - returns to course when watching course lesson
+- Returns to dashboard when watching standalone file
+- Improved video streaming with course integration
+
+**WebSocket Infrastructure**
+- Laravel Reverb 1.6.1 installation and configuration
+- Systemd service for production WebSocket server
+- Nginx proxy for wss:// connections at /app endpoint
+- Environment configuration (REVERB_APP_ID, REVERB_APP_KEY, REVERB_APP_SECRET)
+- WebSocket testing page with installation validation
+- Real-time connection status monitoring
+
+**Database Schema Updates**
+- `courses` table (teacher_id, title, description, active status)
+- `course_student` pivot table for enrollments
+- `course_lessons` table (course_id, file_id associations)
+- `course_messages` table (course chat history)
+- Foreign key relationships and indexes
+
+**Technical Improvements**
+- CourseChatMessage broadcast event with ShouldBroadcastNow
+- CourseChatController REST API for messages
+- Public channel broadcasting (no authentication overhead)
+- Reverb installation check on WebSocket testing page
+- Comprehensive console logging for debugging
+
+**UI/UX Enhancements**
+- Modern chat interface with avatars and timestamps
+- Real-time message updates without page refresh
+- Course enrollment badges and status indicators
+- Lesson count display on course cards
+- Teacher and student role-specific views
+
+**Production Deployment**
+- Reverb systemd service configuration
+- Nginx WebSocket proxy setup
+- SSL/TLS support for wss:// connections
+- Environment variable management
+- Service restart and monitoring
+
+---
 
 ### Version 1.2.1 (November 23, 2025)
 

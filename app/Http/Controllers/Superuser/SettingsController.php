@@ -179,4 +179,49 @@ class SettingsController extends Controller
     {
         return view('superuser.about');
     }
+
+    public function websocketTest()
+    {
+        return view('superuser.settings.websocket-test');
+    }
+
+    public function broadcastTestMessage(Request $request)
+    {
+        $request->validate([
+            'channel' => 'required|string|max:255',
+            'event' => 'required|string|max:255',
+            'data' => 'required|array',
+        ]);
+
+        try {
+            Log::info('Broadcasting test message', [
+                'channel' => $request->channel,
+                'event' => $request->event,
+                'data' => $request->data,
+            ]);
+
+            event(new \App\Events\TestWebSocketEvent(
+                $request->channel,
+                $request->event,
+                $request->data
+            ));
+
+            Log::info('Test message broadcasted successfully');
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Message broadcasted successfully'
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Failed to broadcast test message', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to broadcast message: ' . $e->getMessage()
+            ], 500);
+        }
+    }
 }

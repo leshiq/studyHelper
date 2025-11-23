@@ -46,6 +46,36 @@ Route::middleware('auth')->group(function () {
     Route::put('/profile/settings', [ProfileController::class, 'update'])->name('profile.update');
     Route::post('/profile/avatar', [ProfileController::class, 'uploadAvatar'])->name('profile.avatar.upload');
     Route::delete('/profile/avatar', [ProfileController::class, 'deleteAvatar'])->name('profile.avatar.delete');
+    
+    // Student course routes
+    Route::prefix('courses')->name('courses.')->group(function () {
+        Route::get('/', [\App\Http\Controllers\Student\CourseController::class, 'index'])->name('index');
+        Route::get('/{course}', [\App\Http\Controllers\Student\CourseController::class, 'show'])->name('show');
+        Route::post('/{course}/request', [\App\Http\Controllers\Student\CourseController::class, 'request'])->name('request');
+        Route::delete('/{course}/cancel-request', [\App\Http\Controllers\Student\CourseController::class, 'cancelRequest'])->name('cancel-request');
+        
+        // Course chat
+        Route::get('/{course}/chat', [\App\Http\Controllers\CourseChatController::class, 'index'])->name('chat.index');
+        Route::post('/{course}/chat', [\App\Http\Controllers\CourseChatController::class, 'store'])->name('chat.store');
+    });
+});
+
+// Teacher routes
+Route::prefix('teacher')->name('teacher.')->middleware(['auth', 'teacher'])->group(function () {
+    Route::resource('courses', \App\Http\Controllers\Teacher\CourseController::class);
+    
+    Route::prefix('courses/{course}')->group(function () {
+        // Lesson management
+        Route::post('lessons', [\App\Http\Controllers\Teacher\CourseLessonController::class, 'store'])->name('courses.lessons.store');
+        Route::put('lessons/{lesson}', [\App\Http\Controllers\Teacher\CourseLessonController::class, 'update'])->name('courses.lessons.update');
+        Route::delete('lessons/{lesson}', [\App\Http\Controllers\Teacher\CourseLessonController::class, 'destroy'])->name('courses.lessons.destroy');
+        
+        // Enrollment management
+        Route::post('enrollments/{enrollment}/approve', [\App\Http\Controllers\Teacher\EnrollmentController::class, 'approve'])->name('courses.enrollments.approve');
+        Route::post('enrollments/{enrollment}/reject', [\App\Http\Controllers\Teacher\EnrollmentController::class, 'reject'])->name('courses.enrollments.reject');
+        Route::post('enrollments/enroll', [\App\Http\Controllers\Teacher\EnrollmentController::class, 'enroll'])->name('courses.enrollments.enroll');
+        Route::delete('students/{student}', [\App\Http\Controllers\Teacher\EnrollmentController::class, 'remove'])->name('courses.students.remove');
+    });
 });
 
 // Admin routes
@@ -77,6 +107,8 @@ Route::prefix('superuser')->name('superuser.')->middleware(['auth', 'superuser']
         Route::get('/', [\App\Http\Controllers\Superuser\SettingsController::class, 'index'])->name('index');
         Route::get('/email-test', [\App\Http\Controllers\Superuser\SettingsController::class, 'emailTest'])->name('email-test');
         Route::post('/email-test/send', [\App\Http\Controllers\Superuser\SettingsController::class, 'sendTestEmail'])->name('email-test.send');
+        Route::get('/websocket-test', [\App\Http\Controllers\Superuser\SettingsController::class, 'websocketTest'])->name('websocket-test');
+        Route::post('/websocket-test/broadcast', [\App\Http\Controllers\Superuser\SettingsController::class, 'broadcastTestMessage'])->name('websocket-test.broadcast');
         Route::get('/general', [\App\Http\Controllers\Superuser\SettingsController::class, 'general'])->name('general');
         Route::post('/general', [\App\Http\Controllers\Superuser\SettingsController::class, 'updateGeneral'])->name('general.update');
         Route::get('/appearance', [\App\Http\Controllers\Superuser\SettingsController::class, 'appearance'])->name('appearance');

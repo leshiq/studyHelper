@@ -40,4 +40,9 @@ class DownloadableFile extends Model
     {
         return $this->hasMany(DownloadLog::class);
     }
+
+    public function courseLessons()
+    {
+        return $this->hasMany(CourseLesson::class);
+    }
 }

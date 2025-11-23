@@ -7,9 +7,15 @@
     <div class="row justify-content-center">
         <div class="col-lg-10">
             <div class="mb-4">
-                <a href="{{ route('dashboard') }}" class="btn btn-outline-secondary">
-                    <i class="bi bi-arrow-left"></i> Back to Dashboard
-                </a>
+                @if(isset($course))
+                    <a href="{{ route('courses.show', $course) }}" class="btn btn-outline-secondary">
+                        <i class="bi bi-arrow-left"></i> Back to Course
+                    </a>
+                @else
+                    <a href="{{ route('dashboard') }}" class="btn btn-outline-secondary">
+                        <i class="bi bi-arrow-left"></i> Back to Dashboard
+                    </a>
+                @endif
             </div>
 
             <div class="card shadow-sm">
