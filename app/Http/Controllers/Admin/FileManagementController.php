@@ -6,13 +6,50 @@ use App\Http\Controllers\Controller;
 use App\Models\DownloadableFile;
 use App\Models\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class FileManagementController extends Controller
 {
     public function index()
     {
-        $files = DownloadableFile::withCount('students', 'downloadLogs')->latest()->get();
-        return view('admin.files.index', compact('files'));
+        // Get all files from storage directory
+        $storagePath = storage_path('app/uploads/lessons');
+        $filesInStorage = [];
+        
+        if (file_exists($storagePath)) {
+            $files = scandir($storagePath);
+            foreach ($files as $filename) {
+                if ($filename !== '.' && $filename !== '..') {
+                    $fullPath = $storagePath . '/' . $filename;
+                    if (is_file($fullPath)) {
+                        $filesInStorage[$filename] = [
+                            'filename' => $filename,
+                            'size' => filesize($fullPath),
+                            'path' => 'uploads/lessons/' . $filename,
+                            'mime_type' => mime_content_type($fullPath),
+                            'modified' => filemtime($fullPath),
+                        ];
+                    }
+                }
+            }
+        }
+        
+        // Get all saved files from database
+        $savedFiles = DownloadableFile::withCount('students', 'downloadLogs')->get();
+        
+        // Mark which files are already in database
+        foreach ($savedFiles as $file) {
+            if (isset($filesInStorage[$file->filename])) {
+                $filesInStorage[$file->filename]['db_record'] = $file;
+            }
+        }
+        
+        // Sort by modification time (newest first)
+        uasort($filesInStorage, function($a, $b) {
+            return $b['modified'] - $a['modified'];
+        });
+        
+        return view('admin.files.index', compact('filesInStorage'));
     }
 
     public function create()
@@ -27,16 +64,16 @@ class FileManagementController extends Controller
             'description' => 'nullable|string',
             'filename' => 'required|string|max:255',
             'file_path' => 'required|string|max:500',
-            'file_size' => 'nullable|integer',
-            'mime_type' => 'nullable|string|max:100',
+            'file_size' => 'required|integer',
+            'mime_type' => 'required|string|max:100',
             'max_downloads' => 'nullable|integer|min:1',
             'is_active' => 'boolean',
         ]);
 
         $file = DownloadableFile::create($validated);
 
-        return redirect()->route('admin.files.show', $file)
-            ->with('success', 'File created successfully.');
+        return redirect()->route('admin.files.index')
+            ->with('success', 'File saved successfully.');
     }
 
     public function show(DownloadableFile $file)

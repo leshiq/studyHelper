@@ -6,12 +6,7 @@
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    background: #f8f9fa;
-}
-
-/* Dark mode support */
-[data-bs-theme="dark"] .main-content {
-    background: #212529;
+    background-color: var(--bs-body-bg) !important;
 }
 
 .main-content.expanded {
@@ -21,4 +16,12 @@
 .content-wrapper {
     flex: 1;
     padding: 2rem;
+    background-color: var(--bs-body-bg) !important;
+}
+
+/* Force dark mode background consistency */
+[data-bs-theme="dark"] .main-content,
+[data-bs-theme="dark"] .content-wrapper,
+[data-bs-theme="dark"] body {
+    background-color: #212529 !important;
 }

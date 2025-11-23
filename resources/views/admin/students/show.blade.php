@@ -1,9 +1,16 @@
-@extends('layouts.app')
+@extends('layouts.sidebar')
 
 @section('title', $student->name . ' - Admin')
 
 @section('content')
 <div class="container">
+    @if(session('success'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="bi bi-check-circle"></i> {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    @endif
+
     <div class="row mb-4">
         <div class="col">
             <h1 class="display-6">
@@ -75,21 +82,27 @@
 
         <div class="col-lg-8">
             <div class="card shadow-sm mb-4">
-                <div class="card-header">
+                <div class="card-header d-flex justify-content-between align-items-center">
                     <h5 class="mb-0">Accessible Files</h5>
+                    @if(!$availableFiles->isEmpty())
+                    <button class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#grantAccessModal">
+                        <i class="bi bi-plus-circle"></i> Grant Access
+                    </button>
+                    @endif
                 </div>
                 <div class="card-body">
                     @if($student->downloadableFiles->isEmpty())
                     <p class="text-muted">No files assigned yet.</p>
                     @else
                     <div class="table-responsive">
-                        <table class="table table-sm">
+                        <table class="table table-sm table-hover">
                             <thead>
                                 <tr>
                                     <th>Title</th>
                                     <th>Granted</th>
                                     <th>Expires</th>
                                     <th>Downloads</th>
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -111,6 +124,15 @@
                                     <td>
                                         {{ $student->downloadLogs->where('downloadable_file_id', $file->id)->count() }}
                                     </td>
+                                    <td>
+                                        <form action="{{ route('admin.students.revoke-access', [$student, $file]) }}" method="POST" class="d-inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Revoke access to this file?')">
+                                                <i class="bi bi-x-circle"></i>
+                                            </button>
+                                        </form>
+                                    </td>
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -119,6 +141,46 @@
                     @endif
                 </div>
             </div>
+
+            <!-- Grant Access Modal -->
+            @if(!$availableFiles->isEmpty())
+            <div class="modal fade" id="grantAccessModal" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form action="{{ route('admin.students.grant-access', $student) }}" method="POST">
+                            @csrf
+                            <div class="modal-header">
+                                <h5 class="modal-title">Grant File Access</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label class="form-label">Select File <span class="text-danger">*</span></label>
+                                    <select class="form-select" name="file_id" required>
+                                        <option value="">Choose a file...</option>
+                                        @foreach($availableFiles as $file)
+                                        <option value="{{ $file->id }}">{{ $file->title }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">Expiration Date (Optional)</label>
+                                    <input type="date" class="form-control" name="expires_at" min="{{ date('Y-m-d', strtotime('+1 day')) }}">
+                                    <div class="form-text">Leave blank for permanent access</div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-success">
+                                    <i class="bi bi-check-circle"></i> Grant Access
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            @endif
 
             <div class="card shadow-sm">
                 <div class="card-header">

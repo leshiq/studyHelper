@@ -43,7 +43,12 @@ class StudentManagementController extends Controller
             $query->latest()->limit(50);
         }]);
 
-        return view('admin.students.show', compact('student'));
+        // Get available files (not yet assigned to this student)
+        $availableFiles = \App\Models\DownloadableFile::where('is_active', true)
+            ->whereNotIn('id', $student->downloadableFiles->pluck('id'))
+            ->get();
+
+        return view('admin.students.show', compact('student', 'availableFiles'));
     }
 
     public function edit(Student $student)
@@ -78,5 +83,26 @@ class StudentManagementController extends Controller
 
         return redirect()->route('admin.students.index')
             ->with('success', 'Student deleted successfully.');
+    }
+
+    public function grantAccess(Request $request, Student $student)
+    {
+        $validated = $request->validate([
+            'file_id' => 'required|exists:downloadable_files,id',
+            'expires_at' => 'nullable|date|after:now',
+        ]);
+
+        $student->downloadableFiles()->attach($validated['file_id'], [
+            'expires_at' => $validated['expires_at'] ?? null,
+        ]);
+
+        return back()->with('success', 'File access granted successfully.');
+    }
+
+    public function revokeAccess(Student $student, $fileId)
+    {
+        $student->downloadableFiles()->detach($fileId);
+
+        return back()->with('success', 'File access revoked successfully.');
     }
 }

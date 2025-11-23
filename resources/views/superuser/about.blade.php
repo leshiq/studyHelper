@@ -26,7 +26,7 @@
                             <strong>Current Version:</strong>
                         </div>
                         <div class="col-md-8">
-                            <span class="badge bg-primary fs-6">v1.2.0</span>
+                            <span class="badge bg-primary fs-6">v1.2.1</span>
                         </div>
                     </div>
                     <div class="row mb-3">

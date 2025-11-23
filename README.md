@@ -2,6 +2,8 @@
 
 A Laravel-based web application for managing and distributing educational video content to students with controlled access and download tracking.
 
+> **Development Note:** This project is being developed with the assistance of GitHub Copilot under the guidance and direction of the project owner.
+
 ## Features
 
 - **Student Authentication**: Secure login system for students to access their learning materials
@@ -292,6 +294,40 @@ This is a custom educational platform. Modify as needed for your teaching requir
 For issues or questions about this platform, please refer to the Laravel documentation at https://laravel.com/docs
 
 ## Changelog
+
+### Version 1.2.1 (November 23, 2025)
+
+**File Management Improvements**
+- Direct storage directory scanning - files read from `storage/app/uploads/lessons/` automatically
+- Auto-detection of file metadata (size, MIME type, modification date)
+- "Save to DB" button for files not yet registered in database
+- Pre-filled file information in save modal
+- Visual status indicators (Active/Inactive/Not Saved badges)
+- File type icons based on MIME type
+- Delete operation now only removes DB record, warns physical file remains
+
+**Student File Assignment**
+- Direct file assignment from student detail page
+- "Grant Access" modal with file selection dropdown
+- Optional expiration date for file access
+- Revoke access functionality with one-click removal
+- Available files list (active files not yet assigned)
+- Improved student show page layout
+
+**CSS & Theme Fixes**
+- Fixed dark theme background breaking on scroll in video watch page
+- Added aggressive background enforcement for `.main-content` and `.content-wrapper`
+- Portal appearance settings now only apply in light mode (prevents white background in dark mode)
+- Improved CSS specificity with `!important` rules for dark mode consistency
+
+**Technical Changes**
+- `FileManagementController::index()` now uses `scandir()` to read storage directory
+- `FileManagementController::store()` validation updated (file_size and mime_type required)
+- `StudentManagementController` added `grantAccess()` and `revokeAccess()` methods
+- New routes: `admin.students.grant-access`, `admin.students.revoke-access`
+- Enhanced CSS modularization with improved dark mode support
+
+---
 
 ### Version 1.2.0 (November 23, 2025)
 

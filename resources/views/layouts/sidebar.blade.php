@@ -34,18 +34,18 @@
             background: {{ $sidebarColor }} !important; 
         }
         
-        /* Override pages background from settings */
+        /* Override pages background from settings - light mode only */
         @if($pagesBgImage)
-            body { 
+            html:not([data-bs-theme="dark"]) body { 
                 background-image: url('{{ asset("portal-assets/backgrounds/" . $pagesBgImage) }}') !important;
                 background-size: cover !important;
                 background-position: center !important;
                 background-attachment: fixed !important;
             }
         @elseif($pagesBgGradient)
-            body { background: {{ $pagesBgGradient }} !important; }
-        @else
-            body { background-color: {{ $pagesBgColor }} !important; }
+            html:not([data-bs-theme="dark"]) body { background: {{ $pagesBgGradient }} !important; }
+        @elseif($pagesBgColor && $pagesBgColor !== '#ffffff')
+            html:not([data-bs-theme="dark"]) body { background-color: {{ $pagesBgColor }} !important; }
         @endif
     </style>
 </head>

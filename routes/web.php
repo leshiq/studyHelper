@@ -57,6 +57,8 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     
     // Student management
     Route::resource('students', StudentManagementController::class);
+    Route::post('students/{student}/grant-access', [StudentManagementController::class, 'grantAccess'])->name('students.grant-access');
+    Route::delete('students/{student}/files/{file}', [StudentManagementController::class, 'revokeAccess'])->name('students.revoke-access');
     
     // Invitation management
     Route::get('invitations', [InvitationController::class, 'index'])->name('invitations.index');
