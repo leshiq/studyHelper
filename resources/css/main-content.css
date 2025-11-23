@@ -1,0 +1,27 @@
+/* Main content area layout */
+.main-content {
+    flex: 1;
+    margin-left: 250px;
+    transition: margin-left 0.3s ease;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--bs-body-bg) !important;
+}
+
+.main-content.expanded {
+    margin-left: 70px;
+}
+
+.content-wrapper {
+    flex: 1;
+    padding: 2rem;
+    background-color: var(--bs-body-bg) !important;
+}
+
+/* Force dark mode background consistency */
+[data-bs-theme="dark"] .main-content,
+[data-bs-theme="dark"] .content-wrapper,
+[data-bs-theme="dark"] body {
+    background-color: #212529 !important;
+}

@@ -6,12 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Models\Course;
 use App\Models\CourseLesson;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CourseLessonController extends Controller
 {
     public function store(Request $request, Course $course)
     {
-        if ($course->teacher_id !== auth()->id() && !auth()->user()->is_admin && !auth()->user()->is_superuser) {
+        if ($course->teacher_id !== Auth::id() && !Auth::user()->is_admin && !Auth::user()->is_superuser) {
             abort(403);
         }
 
@@ -36,7 +37,7 @@ class CourseLessonController extends Controller
 
     public function update(Request $request, Course $course, CourseLesson $lesson)
     {
-        if ($course->teacher_id !== auth()->id() && !auth()->user()->is_admin && !auth()->user()->is_superuser) {
+        if ($course->teacher_id !== Auth::id() && !Auth::user()->is_admin && !Auth::user()->is_superuser) {
             abort(403);
         }
 
@@ -55,7 +56,7 @@ class CourseLessonController extends Controller
 
     public function destroy(Course $course, CourseLesson $lesson)
     {
-        if ($course->teacher_id !== auth()->id() && !auth()->user()->is_admin && !auth()->user()->is_superuser) {
+        if ($course->teacher_id !== Auth::id() && !Auth::user()->is_admin && !Auth::user()->is_superuser) {
             abort(403);
         }
 

@@ -6,13 +6,14 @@ use App\Events\CourseChatMessage;
 use App\Models\Course;
 use App\Models\CourseMessage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CourseChatController extends Controller
 {
     public function index(Course $course)
     {
         // Check if user is enrolled or is the teacher
-        $user = auth()->user();
+        $user = Auth::user();
         $isEnrolled = $course->approvedStudents()->where('student_id', $user->id)->exists();
         $isTeacher = $course->teacher_id === $user->id;
         
@@ -34,7 +35,7 @@ class CourseChatController extends Controller
     public function store(Request $request, Course $course)
     {
         // Check if user is enrolled or is the teacher
-        $user = auth()->user();
+        $user = Auth::user();
         $isEnrolled = $course->approvedStudents()->where('student_id', $user->id)->exists();
         $isTeacher = $course->teacher_id === $user->id;
         

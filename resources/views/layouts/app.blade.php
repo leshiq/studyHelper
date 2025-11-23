@@ -10,16 +10,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     
-    <!-- App CSS -->
-    <link rel="stylesheet" href="{{ asset('css/base.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/sidebar.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/topbar.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/main-content.css') }}">
-    
     <!-- Theme Script (must load early) -->
     <script src="{{ asset('js/theme.js') }}"></script>
-    
-    @stack('styles')
     
     @php
         $sidebarColor = \App\Models\Setting::get('sidebar_color', 'linear-gradient(180deg, #667eea 0%, #764ba2 100%)');
@@ -29,25 +21,34 @@
     @endphp
     
     <style>
-        /* Override sidebar background from settings - light mode only */
-        html:not([data-bs-theme="dark"]) .sidebar { 
-            background: {{ $sidebarColor }} !important; 
+        /* CSS Custom Properties for dynamic theming */
+        :root {
+            --sidebar-bg: {{ $sidebarColor }};
+            @if($pagesBgImage)
+                --pages-bg: url('{{ asset("portal-assets/backgrounds/" . $pagesBgImage) }}');
+                --pages-bg-size: cover;
+                --pages-bg-position: center;
+                --pages-bg-attachment: fixed;
+            @elseif($pagesBgGradient)
+                --pages-bg: {{ $pagesBgGradient }};
+            @elseif($pagesBgColor && $pagesBgColor !== '#ffffff')
+                --pages-bg: {{ $pagesBgColor }};
+            @endif
         }
         
-        /* Override pages background from settings - light mode only */
+        /* Apply background image styles if set */
         @if($pagesBgImage)
-            html:not([data-bs-theme="dark"]) body { 
-                background-image: url('{{ asset("portal-assets/backgrounds/" . $pagesBgImage) }}') !important;
-                background-size: cover !important;
-                background-position: center !important;
-                background-attachment: fixed !important;
+            html:not([data-bs-theme="dark"]) body {
+                background-image: var(--pages-bg) !important;
+                background-size: var(--pages-bg-size) !important;
+                background-position: var(--pages-bg-position) !important;
+                background-attachment: var(--pages-bg-attachment) !important;
             }
-        @elseif($pagesBgGradient)
-            html:not([data-bs-theme="dark"]) body { background: {{ $pagesBgGradient }} !important; }
-        @elseif($pagesBgColor && $pagesBgColor !== '#ffffff')
-            html:not([data-bs-theme="dark"]) body { background-color: {{ $pagesBgColor }} !important; }
         @endif
     </style>
+    
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @stack('styles')
 </head>
 <body>
     @auth
@@ -183,9 +184,6 @@
     </div>
     @endauth
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
     <script>
         // Sidebar toggle functionality
         const sidebar = document.getElementById('sidebar');
@@ -209,6 +207,7 @@
         });
     </script>
     
+    @vite(['resources/js/app.js'])
     @stack('scripts')
 </body>
 </html>

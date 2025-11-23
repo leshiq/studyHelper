@@ -175,17 +175,17 @@
                     <div class="card-body">
                         <div class="mb-3">
                             <label class="small text-muted">Login Background</label>
-                            <div class="border rounded p-3" style="height: 100px; background: {{ $loginBgGradient ?: $loginBgColor }};"></div>
+                            <div class="border rounded p-3" style="height: 100px; background: var(--login-bg, {{ $loginBgGradient ?: $loginBgColor }});"></div>
                         </div>
 
                         <div class="mb-3">
                             <label class="small text-muted">Sidebar Color</label>
-                            <div class="border rounded p-3" style="height: 60px; background: {{ $sidebarColor }};"></div>
+                            <div class="border rounded p-3" style="height: 60px; background: var(--sidebar-bg, {{ $sidebarColor }});"></div>
                         </div>
 
                         <div class="mb-3">
                             <label class="small text-muted">Pages Background</label>
-                            <div class="border rounded p-3" style="height: 80px; background: {{ $pagesBgGradient ?: $pagesBgColor }};"></div>
+                            <div class="border rounded p-3" style="height: 80px; background: var(--pages-bg, {{ $pagesBgGradient ?: $pagesBgColor }});"></div>
                         </div>
                     </div>
                 </div>
@@ -211,16 +211,5 @@
 </div>
 
 @push('scripts')
-<script>
-    // Update color input text when color picker changes
-    document.querySelectorAll('input[type="color"]').forEach(colorPicker => {
-        colorPicker.addEventListener('input', function() {
-            const textInput = this.nextElementSibling;
-            if (textInput) {
-                textInput.value = this.value;
-            }
-        });
-    });
-</script>
 @endpush
 @endsection

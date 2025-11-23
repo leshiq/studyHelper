@@ -22,11 +22,11 @@
                 </div>
                 <div class="card-body">
                     <div class="row mb-3">
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <strong>Current Version:</strong>
                         </div>
-                        <div class="col-md-8">
-                            <span class="badge bg-primary fs-6">v1.3.0</span>
+                        <div class="col-md-6">
+                            <span class="badge bg-primary fs-6">v1.3.1</span>
                         </div>
                     </div>
                     <div class="row mb-3">

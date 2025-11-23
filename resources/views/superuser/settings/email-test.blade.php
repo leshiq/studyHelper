@@ -22,7 +22,7 @@
                     </h5>
                 </div>
                 <div class="card-body">
-                    <form id="emailTestForm">
+                    <form id="emailTestForm" data-send-route="{{ route('superuser.settings.email-test.send') }}">
                         @csrf
                         <div class="mb-3">
                             <label for="recipient" class="form-label">Recipient Email Address</label>
@@ -166,59 +166,5 @@ MAIL_FROM_NAME="${APP_NAME}"</code></pre>
 </div>
 
 @push('scripts')
-<script>
-document.getElementById('emailTestForm').addEventListener('submit', async function(e) {
-    e.preventDefault();
-    
-    const resultDiv = document.getElementById('result');
-    const submitBtn = this.querySelector('button[type="submit"]');
-    const originalBtnText = submitBtn.innerHTML;
-    
-    // Show loading state
-    submitBtn.disabled = true;
-    submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Sending...';
-    resultDiv.innerHTML = '';
-    
-    try {
-        const formData = new FormData(this);
-        
-        const response = await fetch('{{ route("superuser.settings.email-test.send") }}', {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest'
-            }
-        });
-        
-        const data = await response.json();
-        
-        if (data.success) {
-            resultDiv.innerHTML = `
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    <i class="bi bi-check-circle"></i> ${data.message}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                </div>
-            `;
-        } else {
-            resultDiv.innerHTML = `
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <i class="bi bi-x-circle"></i> ${data.message || 'Failed to send test email'}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                </div>
-            `;
-        }
-    } catch (error) {
-        resultDiv.innerHTML = `
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <i class="bi bi-x-circle"></i> Error: ${error.message}
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
-        `;
-    } finally {
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = originalBtnText;
-    }
-});
-</script>
 @endpush
 @endsection

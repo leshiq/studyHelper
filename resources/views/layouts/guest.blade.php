@@ -10,33 +10,37 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     
-    @stack('styles')
+    @php
+        $loginBgImage = \App\Models\Setting::get('login_bg_image', '');
+        $loginBgGradient = \App\Models\Setting::get('login_bg_gradient', 'linear-gradient(135deg, #667eea, #764ba2)');
+        $loginBgColor = \App\Models\Setting::get('login_bg_color', '#667eea');
+    @endphp
     
     <style>
-        html, body {
-            height: 100%;
-        }
-
-        body {
-            display: flex;
-            flex-direction: column;
-            @php
-                $loginBgImage = \App\Models\Setting::get('login_bg_image', '');
-                $loginBgGradient = \App\Models\Setting::get('login_bg_gradient', 'linear-gradient(135deg, #667eea, #764ba2)');
-                $loginBgColor = \App\Models\Setting::get('login_bg_color', '#667eea');
-            @endphp
+        /* CSS Custom Properties for dynamic theming */
+        :root {
             @if($loginBgImage)
-                background-image: url('{{ asset("portal-assets/backgrounds/" . $loginBgImage) }}');
-                background-size: cover;
-                background-position: center;
-                background-repeat: no-repeat;
+                --login-bg: url('{{ asset("portal-assets/backgrounds/" . $loginBgImage) }}');
             @elseif($loginBgGradient)
-                background: {{ $loginBgGradient }};
+                --login-bg: {{ $loginBgGradient }};
             @else
-                background-color: {{ $loginBgColor }};
+                --login-bg: {{ $loginBgColor }};
             @endif
         }
+        
+        /* Apply background image styles if set */
+        @if($loginBgImage)
+            body {
+                background-image: var(--login-bg) !important;
+                background-size: cover !important;
+                background-position: center !important;
+                background-repeat: no-repeat !important;
+            }
+        @endif
     </style>
+    
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @stack('styles')
 </head>
 <body>
     <main class="flex-grow-1 d-flex align-items-center py-4">
@@ -61,8 +65,6 @@
         @yield('content')
     </main>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     @stack('scripts')
 </body>
 </html>

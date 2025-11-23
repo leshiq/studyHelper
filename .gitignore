@@ -32,3 +32,7 @@ create-admin.php
 update-admin.php
 server-deploy.sh
 
+# Laravel IDE Helper
+_ide_helper.php
+_ide_helper_models.php
+.phpstorm.meta.php

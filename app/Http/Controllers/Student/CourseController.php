@@ -6,12 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Models\Course;
 use App\Models\CourseEnrollment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CourseController extends Controller
 {
     public function index()
     {
-        $myCourses = auth()->user()->approvedCourses()
+        $myCourses = Auth::user()->approvedCourses()
             ->with(['teacher', 'lessons' => function($query) {
                 $query->where('is_published', true);
             }])
@@ -21,13 +22,13 @@ class CourseController extends Controller
         $availableCourses = Course::where('is_active', true)
             ->where('is_available_to_all', true)
             ->whereDoesntHave('enrollments', function($query) {
-                $query->where('student_id', auth()->id());
+                $query->where('student_id', Auth::id());
             })
             ->with('teacher')
             ->withCount('lessons')
             ->get();
 
-        $pendingRequests = auth()->user()->enrollments()
+        $pendingRequests = Auth::user()->enrollments()
             ->where('status', 'pending')
             ->with('course.teacher')
             ->get();
@@ -38,7 +39,7 @@ class CourseController extends Controller
     public function show(Course $course)
     {
         $enrollment = CourseEnrollment::where('course_id', $course->id)
-            ->where('student_id', auth()->id())
+            ->where('student_id', Auth::id())
             ->where('status', 'approved')
             ->first();
 
@@ -56,7 +57,7 @@ class CourseController extends Controller
     public function request(Course $course)
     {
         $existing = CourseEnrollment::where('course_id', $course->id)
-            ->where('student_id', auth()->id())
+            ->where('student_id', Auth::id())
             ->first();
 
         if ($existing) {
@@ -71,7 +72,7 @@ class CourseController extends Controller
 
         CourseEnrollment::create([
             'course_id' => $course->id,
-            'student_id' => auth()->id(),
+            'student_id' => Auth::id(),
             'status' => 'pending',
         ]);
 
@@ -81,7 +82,7 @@ class CourseController extends Controller
     public function cancelRequest(Course $course)
     {
         CourseEnrollment::where('course_id', $course->id)
-            ->where('student_id', auth()->id())
+            ->where('student_id', Auth::id())
             ->where('status', 'pending')
             ->delete();
 

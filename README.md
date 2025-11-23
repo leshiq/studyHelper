@@ -299,6 +299,43 @@ For issues or questions about this platform, please refer to the Laravel documen
 
 ## Changelog
 
+### Version 1.3.1 (November 23, 2025)
+
+**Developer Experience Improvements**
+- Fixed IntelliSense errors by using `Auth::user()` facade instead of `auth()->user()` helper
+- Added Auth facade imports across all controllers for proper IDE support
+- Laravel IDE Helper now properly recognizes `Auth::user()` return type as `\App\Models\Student|null`
+- Replaced all `auth()->user()` and `auth()->id()` calls with `Auth::user()` and `Auth::id()`
+
+**Asset Optimization**
+- Bundled JavaScript with Vite (192 KB → 61 KB gzipped)
+- Bundled CSS with Vite (40 KB → 9.76 KB gzipped)
+- Self-hosted Bootstrap 5.3 and Pusher.js (no CDN dependencies)
+- Implemented CSS variables for dynamic theming
+- Theme-aware chat styling
+- Reduced HTTP requests from 8 to 3 (theme.js + CSS bundle + JS bundle)
+
+**IDE & Linter Configuration**
+- Disabled CSS validation for Blade templates (prevents false positives)
+- Configured VS Code settings for Laravel development
+- Added support for Tailwind CSS v4 directives (`@source`, `@theme`, `@layer`)
+- Disabled intrusive Intelephense diagnostics for Laravel magic methods
+- Improved Blade file associations and Emmet support
+
+**Database Setup**
+- PostgreSQL 16 installed locally for development
+- php8.3-pgsql extension configured
+- Production database synced to local environment
+- Matching credentials strategy (studyhelper_user) to avoid .env conflicts
+- Database connection verified and working
+
+**Technical Improvements**
+- Updated appearance preview to use CSS variables with Blade fallbacks
+- Consistent use of Laravel facades for better IDE support
+- Improved code quality with proper type hints via IDE Helper
+
+---
+
 ### Version 1.3.0 (November 23, 2025)
 
 **Course Management System**

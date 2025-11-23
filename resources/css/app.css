@@ -9,3 +9,17 @@
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
+
+/**
+ * ============================================================================
+ * APPLICATION COMPONENT STYLES
+ * ============================================================================
+ * CSS variables are defined in Blade layouts for dynamic theming
+ */
+
+/* Import all component styles */
+@import './base.css';
+@import './sidebar.css';
+@import './topbar.css';
+@import './main-content.css';
+@import './guest.css';

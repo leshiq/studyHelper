@@ -130,48 +130,5 @@
 </div>
 
 @push('scripts')
-<script>
-function copyLink(event) {
-    const input = document.getElementById('invitationLink');
-    const url = input.value;
-    
-    navigator.clipboard.writeText(url).then(() => {
-        const btn = event.target.closest('button');
-        const originalHTML = btn.innerHTML;
-        btn.innerHTML = '<i class="bi bi-check"></i> Copied!';
-        setTimeout(() => {
-            btn.innerHTML = originalHTML;
-        }, 2000);
-    }).catch(err => {
-        console.error('Failed to copy:', err);
-        // Fallback for older browsers
-        input.select();
-        document.execCommand('copy');
-        const btn = event.target.closest('button');
-        btn.innerHTML = '<i class="bi bi-check"></i> Copied!';
-        setTimeout(() => {
-            btn.innerHTML = '<i class="bi bi-clipboard"></i> Copy';
-        }, 2000);
-    });
-}
-
-// Event delegation for copy invitation buttons
-document.addEventListener('click', function(event) {
-    const btn = event.target.closest('.copy-invitation-btn');
-    if (btn) {
-        const url = btn.dataset.url;
-        navigator.clipboard.writeText(url).then(() => {
-            const originalHTML = btn.innerHTML;
-            btn.innerHTML = '<i class="bi bi-check"></i>';
-            setTimeout(() => {
-                btn.innerHTML = originalHTML;
-            }, 2000);
-        }).catch(err => {
-            console.error('Failed to copy:', err);
-            alert('Failed to copy link. Please copy manually.');
-        });
-    }
-});
-</script>
 @endpush
 @endsection

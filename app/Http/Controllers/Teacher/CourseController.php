@@ -6,12 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Models\Course;
 use App\Models\DownloadableFile;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CourseController extends Controller
 {
     public function index()
     {
-        $courses = auth()->user()->taughtCourses()
+        $courses = Auth::user()->taughtCourses()
             ->withCount(['lessons', 'enrollments', 'approvedStudents'])
             ->latest()
             ->get();
@@ -33,7 +34,7 @@ class CourseController extends Controller
             'is_active' => 'boolean',
         ]);
 
-        $validated['teacher_id'] = auth()->id();
+        $validated['teacher_id'] = Auth::id();
 
         $course = Course::create($validated);
 
@@ -43,7 +44,7 @@ class CourseController extends Controller
 
     public function show(Course $course)
     {
-        if ($course->teacher_id !== auth()->id() && !auth()->user()->is_admin && !auth()->user()->is_superuser) {
+        if ($course->teacher_id !== Auth::id() && !Auth::user()->is_admin && !Auth::user()->is_superuser) {
             abort(403);
         }
 
@@ -62,7 +63,7 @@ class CourseController extends Controller
 
     public function edit(Course $course)
     {
-        if ($course->teacher_id !== auth()->id() && !auth()->user()->is_admin && !auth()->user()->is_superuser) {
+        if ($course->teacher_id !== Auth::id() && !Auth::user()->is_admin && !Auth::user()->is_superuser) {
             abort(403);
         }
 
@@ -71,7 +72,7 @@ class CourseController extends Controller
 
     public function update(Request $request, Course $course)
     {
-        if ($course->teacher_id !== auth()->id() && !auth()->user()->is_admin && !auth()->user()->is_superuser) {
+        if ($course->teacher_id !== Auth::id() && !Auth::user()->is_admin && !Auth::user()->is_superuser) {
             abort(403);
         }
 
@@ -90,7 +91,7 @@ class CourseController extends Controller
 
     public function destroy(Course $course)
     {
-        if ($course->teacher_id !== auth()->id() && !auth()->user()->is_admin && !auth()->user()->is_superuser) {
+        if ($course->teacher_id !== Auth::id() && !Auth::user()->is_admin && !Auth::user()->is_superuser) {
             abort(403);
         }
 
