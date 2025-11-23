@@ -1,0 +1,24 @@
+/* Main content area layout */
+.main-content {
+    flex: 1;
+    margin-left: 250px;
+    transition: margin-left 0.3s ease;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: #f8f9fa;
+}
+
+/* Dark mode support */
+[data-bs-theme="dark"] .main-content {
+    background: #212529;
+}
+
+.main-content.expanded {
+    margin-left: 70px;
+}
+
+.content-wrapper {
+    flex: 1;
+    padding: 2rem;
+}

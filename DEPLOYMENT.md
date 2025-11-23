@@ -11,7 +11,9 @@ ssh andreik@91.99.27.52
 sudo apt update
 sudo apt install -y postgresql postgresql-contrib \
   php8.3-pgsql php8.3-mbstring php8.3-xml \
-  php8.3-curl php8.3-zip php8.3-gd php8.3-bcmath
+  php8.3-curl php8.3-zip php8.3-gd php8.3-bcmath \
+  php8.3-imagick imagemagick \
+  jpegoptim optipng pngquant webp gifsicle
 
 sudo systemctl enable postgresql
 sudo systemctl start postgresql
@@ -92,10 +94,12 @@ mkdir -p storage/app/uploads/lessons
 mkdir -p storage/framework/{cache,sessions,views}
 mkdir -p storage/logs
 mkdir -p bootstrap/cache
+mkdir -p public/portal-assets/{logos,backgrounds}
+mkdir -p public/avatars/{original,large,medium,small}
 
 # Set permissions
-sudo chown -R www-data:www-data storage bootstrap/cache
-sudo chmod -R 775 storage bootstrap/cache
+sudo chown -R www-data:www-data storage bootstrap/cache public/portal-assets public/avatars
+sudo chmod -R 775 storage bootstrap/cache public/portal-assets public/avatars
 
 # Run migrations
 php artisan migrate --force
@@ -334,3 +338,44 @@ Check `.env` credentials match PostgreSQL user/database.
 - Video uploads: `/var/www/studyhelper.iforlive.com/storage/app/uploads/lessons`
 - Logs: `/var/www/studyhelper.iforlive.com/storage/logs`
 - Nginx config: `/etc/nginx/sites-available/studyhelper.iforlive.com`
+
+---
+
+## Image Processing Requirements
+
+**Server Packages (Installed November 23, 2025):**
+
+```bash
+# PHP Extensions
+php8.3-gd          # GD Library (basic image processing)
+php8.3-imagick     # ImageMagick extension (advanced processing)
+
+# Image Optimization Tools
+imagemagick        # Core ImageMagick library
+jpegoptim         # JPEG optimization
+optipng           # PNG optimization
+pngquant          # PNG compression
+webp              # WebP format support
+gifsicle          # GIF optimization
+```
+
+**Laravel Package (Composer):**
+```bash
+composer require intervention/image
+```
+
+**Avatar Processing:**
+- **Original**: Full uploaded image (preserved for re-processing)
+- **Large**: 400x400px (profile pages, detailed views)
+- **Medium**: 200x200px (general use, cards)  
+- **Small**: 64x64px (topbar, sidebar, thumbnails)
+- **Formats**: WebP + JPEG/PNG fallback for browser compatibility
+- **Auto-optimization**: Applied on upload to reduce file sizes
+
+**Additional Upload Directories:**
+- Portal assets: `/var/www/studyhelper.iforlive.com/public/portal-assets/{logos,backgrounds}`
+- User avatars: `/var/www/studyhelper.iforlive.com/public/avatars/{original,large,medium,small}`
+
+---
+
+**Last Updated**: November 23, 2025

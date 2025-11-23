@@ -27,15 +27,29 @@ class LoginController extends Controller
         if (Auth::guard('web')->attempt($credentials, $request->filled('remember'))) {
             $request->session()->regenerate();
             
+            $user = Auth::user();
+            
             // Check if student is active
-            if (!Auth::user()->is_active) {
+            if (!$user->is_active) {
                 Auth::logout();
                 return back()->withErrors([
                     'email' => 'Your account has been deactivated.',
                 ]);
             }
 
-            return redirect()->intended('/dashboard');
+            // Check if user must change credentials
+            if ($user->must_change_credentials) {
+                return redirect()->route('credentials.show');
+            }
+
+            // Route based on user role
+            if ($user->is_superuser) {
+                return redirect()->route('superuser.dashboard');
+            } elseif ($user->is_admin) {
+                return redirect()->intended('/dashboard');
+            } else {
+                return redirect()->intended('/dashboard');
+            }
         }
 
         return back()->withErrors([

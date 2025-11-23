@@ -40,7 +40,18 @@
                     <tbody>
                         @foreach($students as $student)
                         <tr>
-                            <td><strong>{{ $student->name }}</strong></td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    @if($student->avatar_small)
+                                    <img src="{{ asset('avatars/small/' . $student->avatar_small) }}" alt="{{ $student->name }}" class="rounded-circle me-2" style="width: 32px; height: 32px; object-fit: cover;">
+                                    @else
+                                    <div class="rounded-circle me-2 d-flex align-items-center justify-content-center text-white fw-bold" style="width: 32px; height: 32px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); font-size: 0.75rem;">
+                                        {{ strtoupper(substr($student->name, 0, 2)) }}
+                                    </div>
+                                    @endif
+                                    <strong>{{ $student->name }}</strong>
+                                </div>
+                            </td>
                             <td>{{ $student->email }}</td>
                             <td>{{ $student->downloadable_files_count }}</td>
                             <td>{{ $student->download_logs_count }}</td>

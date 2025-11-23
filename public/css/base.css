@@ -1,0 +1,88 @@
+/* Base styles shared across all authenticated pages */
+html, body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    overflow-x: hidden;
+}
+
+/* Dark mode overrides for Bootstrap utility classes */
+[data-bs-theme="dark"] .bg-white {
+    background-color: #212529 !important;
+}
+
+[data-bs-theme="dark"] .bg-light {
+    background-color: #343a40 !important;
+}
+
+[data-bs-theme="dark"] .card {
+    background-color: #212529;
+    border-color: #495057;
+}
+
+[data-bs-theme="dark"] .card-header {
+    background-color: #1a1d20;
+    border-bottom-color: #495057;
+}
+
+[data-bs-theme="dark"] .border-bottom {
+    border-bottom-color: #495057 !important;
+}
+
+[data-bs-theme="dark"] .text-muted {
+    color: #adb5bd !important;
+}
+
+[data-bs-theme="dark"] .table {
+    --bs-table-bg: transparent;
+    --bs-table-color: #dee2e6;
+    --bs-table-border-color: #495057;
+}
+
+[data-bs-theme="dark"] .table-hover > tbody > tr:hover {
+    --bs-table-hover-bg: rgba(255, 255, 255, 0.075);
+}
+
+[data-bs-theme="dark"] .form-control,
+[data-bs-theme="dark"] .form-select {
+    background-color: #212529;
+    border-color: #495057;
+    color: #dee2e6;
+}
+
+[data-bs-theme="dark"] .form-control:focus,
+[data-bs-theme="dark"] .form-select:focus {
+    background-color: #212529;
+    border-color: #86b7fe;
+    color: #dee2e6;
+}
+
+[data-bs-theme="dark"] .modal-content {
+    background-color: #212529;
+    color: #dee2e6;
+}
+
+[data-bs-theme="dark"] .modal-header {
+    border-bottom-color: #495057;
+}
+
+[data-bs-theme="dark"] .modal-footer {
+    border-top-color: #495057;
+}
+
+[data-bs-theme="dark"] .alert-info {
+    background-color: #17a2b8;
+    border-color: #17a2b8;
+    color: #fff;
+}
+
+[data-bs-theme="dark"] .user-name {
+    color: #dee2e6 !important;
+}
+
+[data-bs-theme="dark"] .table-light {
+    --bs-table-bg: #343a40;
+    --bs-table-color: #dee2e6;
+}

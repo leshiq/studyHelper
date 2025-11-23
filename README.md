@@ -293,6 +293,92 @@ For issues or questions about this platform, please refer to the Laravel documen
 
 ## Changelog
 
+### Version 1.2.0 (November 23, 2025)
+
+**New Features**
+
+#### User Interface Redesign
+- Modern sidebar navigation with collapsible menu (250px/70px toggle)
+- Persistent sidebar state with localStorage
+- Top bar with user info, settings, and logout
+- Improved responsive layout
+- Bootstrap Icons integration
+
+#### CSS Modularization
+- Extracted inline styles to 5 modular CSS files:
+  - `base.css` - Shared base styles
+  - `sidebar.css` - Sidebar navigation
+  - `topbar.css` - Top bar with user menu
+  - `main-content.css` - Content area layout
+  - `guest.css` - Guest pages (login, register)
+
+#### Profile Settings System
+- Tabbed profile settings interface
+- Personal information editing (name, email)
+- Security tab for password changes
+- Avatar upload with multi-size processing
+- Display preferences with light/dark/auto themes
+
+#### System Settings Hub (Superuser)
+- Centralized settings dashboard with card layout
+- General settings page with feature toggles
+- Email testing functionality with detailed logging
+- Password change feature toggle (admin-controlled)
+
+#### Portal Appearance Customization
+- Logo upload and management
+- Login page background (image/gradient/color with fallback chain)
+- Pages background customization
+- Sidebar color/gradient customization
+- Live preview and tips section
+
+#### Avatar System
+- Multi-size avatar processing (original, large 400x, medium 200x, small 64x)
+- Automatic WebP conversion for optimized sizes
+- GD Library and ImageMagick integration
+- Intervention Image 3.11 for image processing
+- Avatar display in topbar, sidebar, and user lists
+- Fallback to colored initial circles
+
+#### Theme System
+- Light/dark mode toggle
+- Auto mode with system preference detection
+- Automatic theme switching on system change
+- Comprehensive dark mode support for all components
+- Bootstrap 5.3 theme integration
+
+#### About Page
+- System information and version tracking
+- Technology stack details
+- Quick statistics (users, files, downloads)
+- Support and documentation links
+
+**Technical Improvements**
+- Image processing with jpegoptim, optipng, pngquant, webp, gifsicle
+- Setting model with key-value storage
+- Portal assets directory structure
+- Avatar storage with size-based subdirectories
+- Dynamic CSS overrides for portal customization
+
+**Database Schema Updates**
+- `settings` table for portal configuration
+- Avatar fields in students table (avatar_original, avatar_large, avatar_medium, avatar_small)
+- `theme_preference` column for user theme settings
+
+**User Experience Enhancements**
+- Avatar thumbnails in all user lists
+- Consistent avatar display pattern across UI
+- Smooth transitions and hover effects
+- Mobile-responsive sidebar toggle
+- Better dark mode readability
+
+**Deployment**
+- Updated DEPLOYMENT.md with image processing requirements
+- Server packages: php8.3-gd, php8.3-imagick, imagemagick, optimization tools
+- Portal assets and avatar directories with proper permissions
+
+---
+
 ### Version 1.1.1 (November 22, 2025)
 
 **Bug Fixes**

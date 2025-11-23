@@ -16,10 +16,25 @@
         html, body {
             height: 100%;
         }
+
         body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             display: flex;
             flex-direction: column;
+            @php
+                $loginBgImage = \App\Models\Setting::get('login_bg_image', '');
+                $loginBgGradient = \App\Models\Setting::get('login_bg_gradient', 'linear-gradient(135deg, #667eea, #764ba2)');
+                $loginBgColor = \App\Models\Setting::get('login_bg_color', '#667eea');
+            @endphp
+            @if($loginBgImage)
+                background-image: url('{{ asset("portal-assets/backgrounds/" . $loginBgImage) }}');
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+            @elseif($loginBgGradient)
+                background: {{ $loginBgGradient }};
+            @else
+                background-color: {{ $loginBgColor }};
+            @endif
         }
     </style>
 </head>

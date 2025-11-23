@@ -80,6 +80,10 @@
                 <i class="bi bi-gear-fill"></i>
                 <span>System Settings</span>
             </a>
+            <a href="{{ route('superuser.about') }}" class="menu-item {{ request()->routeIs('superuser.about') ? 'active' : '' }}">
+                <i class="bi bi-info-circle-fill"></i>
+                <span>About</span>
+            </a>
             @endif
             
             @if(Auth::user()->is_admin || Auth::user()->is_superuser)

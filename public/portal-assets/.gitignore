@@ -1,0 +1,7 @@
+# Allow the directory structure but ignore uploaded files
+*
+!.gitignore
+!logos/
+!backgrounds/
+logos/*
+backgrounds/*

@@ -16,6 +16,13 @@ class Student extends Authenticatable
         'password',
         'is_active',
         'is_admin',
+        'is_superuser',
+        'must_change_credentials',
+        'avatar_original',
+        'avatar_large',
+        'avatar_medium',
+        'avatar_small',
+        'theme_preference',
     ];
 
     protected $hidden = [
@@ -28,6 +35,8 @@ class Student extends Authenticatable
         return [
             'is_active' => 'boolean',
             'is_admin' => 'boolean',
+            'is_superuser' => 'boolean',
+            'must_change_credentials' => 'boolean',
             'password' => 'hashed',
         ];
     }
