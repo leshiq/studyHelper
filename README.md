@@ -299,6 +299,61 @@ For issues or questions about this platform, please refer to the Laravel documen
 
 ## Changelog
 
+### Version 1.5.0 (November 23, 2025)
+
+**Comprehensive Quiz System**
+- Multiple quizzes per lesson support
+- Three question types: single choice, multiple choice, text input
+- Quiz snapshots preserve quiz state when students start
+- Automatic grading with points and percentage scores
+- Repeatable vs one-time quiz modes
+- Timed quizzes with automatic submission
+- Real-time countdown timer display
+
+**Teacher Quiz Management**
+- Create/edit/delete quizzes with accordion-based interface
+- Add/edit/delete questions with dynamic forms
+- Set quiz title, description, time limit, retake policy
+- Configure question text, points, correct answers, explanations
+- Visual highlighting of correct answers in green
+- Modal-based question editing with type switching
+- Bulk question management within each quiz
+
+**Student Quiz Experience**
+- Take quizzes with preserved quiz state (snapshots)
+- See all available quizzes for each lesson
+- View quiz results with answer review
+- See correct answers vs their submissions
+- Retake quizzes if allowed by teacher
+- Timer-based auto-submission when time runs out
+- Progress saved throughout quiz attempt
+
+**Admin Course Oversight**
+- Deep-dive course management interface
+- View all courses with lesson/quiz/attempt counts
+- Navigate from courses → lessons → quizzes → attempts
+- Permanently delete quiz attempts (admin-only power)
+- Activate/deactivate courses
+- Monitor all student quiz attempts across platform
+
+**Quiz Database Schema**
+- `lesson_quizzes` table with time limits and retake settings
+- `quiz_questions` table supporting three question types
+- `quiz_question_options` for choice-type questions
+- `quiz_attempts` with JSON snapshots of quiz state
+- `quiz_attempt_answers` storing student responses
+- Proper foreign key relationships and cascade deletes
+
+**UI Polish**
+- Consistent button spacing with me-2 margins
+- Bootstrap 5 modals for question editing
+- Dynamic option management with JavaScript
+- Enhanced teacher question view with visual indicators
+- Responsive accordion layout for quiz management
+- Clean result display with color-coded feedback
+
+---
+
 ### Version 1.4.0 (November 23, 2025)
 
 **Video Progress Tracking System**

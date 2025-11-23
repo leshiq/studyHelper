@@ -113,6 +113,30 @@
                                                 @endif
                                             </div>
                                         @endif
+
+                                        <!-- Quizzes -->
+                                        @if($enrollment && $lesson->activeQuizzes->isNotEmpty())
+                                            <div class="mt-3">
+                                                <strong class="small text-muted d-block mb-2">
+                                                    <i class="bi bi-question-circle"></i> Quizzes ({{ $lesson->activeQuizzes->count() }})
+                                                </strong>
+                                                <div class="d-flex flex-wrap gap-2">
+                                                    @foreach($lesson->activeQuizzes as $quiz)
+                                                        @php
+                                                            $bestAttempt = $quiz->bestAttemptForStudent(Auth::id());
+                                                        @endphp
+                                                        <a href="{{ route('courses.quiz.show', [$course, $lesson, $quiz]) }}" 
+                                                           class="btn btn-sm {{ $bestAttempt && $bestAttempt->is_passed ? 'btn-success' : 'btn-outline-info' }}">
+                                                            <i class="bi bi-{{ $bestAttempt && $bestAttempt->is_passed ? 'check-circle-fill' : 'question-circle' }}"></i>
+                                                            {{ $quiz->title }}
+                                                            @if($bestAttempt)
+                                                                <span class="badge bg-white text-dark ms-1">{{ $bestAttempt->score }}%</span>
+                                                            @endif
+                                                        </a>
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                        @endif
                                     </div>
                                 </div>
                             </div>

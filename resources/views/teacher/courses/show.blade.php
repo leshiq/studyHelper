@@ -111,12 +111,11 @@
                                             </div>
                                         @endif
                                     </div>
-                                    <div class="btn-group ms-2">
-                                        <button type="button" class="btn btn-sm btn-outline-primary me-2" 
-                                                data-bs-toggle="modal" 
-                                                data-bs-target="#editLessonModal{{ $lesson->id }}">
+                                    <div class="btn-group ms-2 me-2">
+                                        <a href="{{ route('teacher.courses.lessons.edit', [$course, $lesson]) }}" 
+                                           class="btn btn-sm btn-outline-primary me-2">
                                             <i class="bi bi-pencil"></i>
-                                        </button>
+                                        </a>
                                         <form action="{{ route('teacher.courses.lessons.destroy', [$course, $lesson]) }}" 
                                               method="POST" 
                                               onsubmit="return confirm('Are you sure you want to delete this lesson?')" 
@@ -126,55 +125,6 @@
                                             <button type="submit" class="btn btn-sm btn-outline-danger px-2">
                                                 <i class="bi bi-trash"></i>
                                             </button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Edit Lesson Modal -->
-                            <div class="modal fade" id="editLessonModal{{ $lesson->id }}" tabindex="-1">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <form action="{{ route('teacher.courses.lessons.update', [$course, $lesson]) }}" method="POST">
-                                            @csrf
-                                            @method('PUT')
-                                            <div class="modal-header">
-                                                <h5 class="modal-title">Edit Lesson</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <div class="mb-3">
-                                                    <label class="form-label">Lesson Title <span class="text-danger">*</span></label>
-                                                    <input type="text" class="form-control" name="title" value="{{ $lesson->title }}" required>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label class="form-label">Description</label>
-                                                    <textarea class="form-control" name="description" rows="3">{{ $lesson->description }}</textarea>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label class="form-label">Attached File</label>
-                                                    <select class="form-select" name="downloadable_file_id">
-                                                        <option value="">No file</option>
-                                                        @foreach($availableFiles as $file)
-                                                            <option value="{{ $file->id }}" {{ $lesson->downloadable_file_id == $file->id ? 'selected' : '' }}>
-                                                                {{ $file->title }}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label class="form-label">Order</label>
-                                                    <input type="number" class="form-control" name="order" value="{{ $lesson->order }}" min="0">
-                                                </div>
-                                                <div class="form-check form-switch">
-                                                    <input class="form-check-input" type="checkbox" name="is_published" value="1" {{ $lesson->is_published ? 'checked' : '' }}>
-                                                    <label class="form-check-label">Published</label>
-                                                </div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                                <button type="submit" class="btn btn-primary">Save Changes</button>
-                                            </div>
                                         </form>
                                     </div>
                                 </div>

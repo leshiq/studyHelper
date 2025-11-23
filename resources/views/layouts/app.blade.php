@@ -87,6 +87,10 @@
             <div class="menu-section">
                 <span>Admin</span>
             </div>
+            <a href="{{ route('admin.courses.index') }}" class="menu-item {{ request()->routeIs('admin.courses.*') ? 'active' : '' }}">
+                <i class="bi bi-mortarboard"></i>
+                <span>Course Management</span>
+            </a>
             <a href="{{ route('admin.files.index') }}" class="menu-item {{ request()->routeIs('admin.files.*') ? 'active' : '' }}">
                 <i class="bi bi-file-earmark"></i>
                 <span>Files</span>

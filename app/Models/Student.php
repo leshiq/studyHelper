@@ -91,4 +91,9 @@ class Student extends Authenticatable
     {
         return $this->hasMany(LessonProgress::class);
     }
+
+    public function quizAttempts()
+    {
+        return $this->hasMany(QuizAttempt::class);
+    }
 }

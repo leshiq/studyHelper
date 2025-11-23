@@ -45,4 +45,20 @@ class CourseLesson extends Model
         return $this->hasOne(LessonProgress::class)
             ->where('student_id', $studentId);
     }
+
+    /**
+     * Get the quizzes for this lesson
+     */
+    public function quizzes()
+    {
+        return $this->hasMany(LessonQuiz::class, 'course_lesson_id');
+    }
+
+    /**
+     * Get active quizzes for this lesson
+     */
+    public function activeQuizzes()
+    {
+        return $this->hasMany(LessonQuiz::class, 'course_lesson_id')->where('is_active', true);
+    }
 }

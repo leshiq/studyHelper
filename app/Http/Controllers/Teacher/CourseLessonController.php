@@ -35,6 +35,18 @@ class CourseLessonController extends Controller
         return back()->with('success', 'Lesson added successfully.');
     }
 
+    public function edit(Course $course, CourseLesson $lesson)
+    {
+        if ($course->teacher_id !== Auth::id() && !Auth::user()->is_admin && !Auth::user()->is_superuser) {
+            abort(403);
+        }
+
+        $lesson->load(['quizzes.questions.options', 'file']);
+        $availableFiles = \App\Models\DownloadableFile::orderBy('title')->get();
+
+        return view('teacher.lessons.edit', compact('course', 'lesson', 'availableFiles'));
+    }
+
     public function update(Request $request, Course $course, CourseLesson $lesson)
     {
         if ($course->teacher_id !== Auth::id() && !Auth::user()->is_admin && !Auth::user()->is_superuser) {

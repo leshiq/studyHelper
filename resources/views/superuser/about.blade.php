@@ -26,7 +26,7 @@
                             <strong>Current Version:</strong>
                         </div>
                         <div class="col-md-6">
-                            <span class="badge bg-primary fs-6">v1.4.0</span>
+                            <span class="badge bg-primary fs-6">v1.5.0</span>
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -155,6 +155,10 @@
                         <li class="mb-2">
                             <i class="bi bi-check-circle-fill text-success"></i>
                             <strong>Video Progress Tracking:</strong> Real-time watch time tracking with detailed analytics
+                        </li>
+                        <li class="mb-2">
+                            <i class="bi bi-check-circle-fill text-success"></i>
+                            <strong>Quiz System:</strong> Multiple quizzes per lesson with snapshots, auto-grading, and repeatable mode
                         </li>
                     </ul>
                 </div>

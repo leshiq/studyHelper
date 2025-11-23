@@ -88,11 +88,11 @@
                             </td>
                             <td>
                                 @if(isset($fileInfo['db_record']))
-                                <div class="btn-group btn-group-sm">
-                                    <a href="{{ route('admin.files.show', $fileInfo['db_record']) }}" class="btn btn-outline-primary" title="View">
+                                <div class="btn-group btn-group-sm me-2">
+                                    <a href="{{ route('admin.files.show', $fileInfo['db_record']) }}" class="btn btn-outline-primary me-2" title="View">
                                         <i class="bi bi-eye"></i>
                                     </a>
-                                    <a href="{{ route('admin.files.edit', $fileInfo['db_record']) }}" class="btn btn-outline-secondary" title="Edit">
+                                    <a href="{{ route('admin.files.edit', $fileInfo['db_record']) }}" class="btn btn-outline-secondary me-2" title="Edit">
                                         <i class="bi bi-pencil"></i>
                                     </a>
                                     <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $fileInfo['db_record']->id }}" title="Delete from DB">

@@ -64,11 +64,11 @@
                             </td>
                             <td>{{ $student->created_at->format('M d, Y') }}</td>
                             <td>
-                                <div class="btn-group btn-group-sm">
-                                    <a href="{{ route('admin.students.show', $student) }}" class="btn btn-outline-primary" title="View">
+                                <div class="btn-group btn-group-sm me-2">
+                                    <a href="{{ route('admin.students.show', $student) }}" class="btn btn-outline-primary me-2" title="View">
                                         <i class="bi bi-eye"></i>
                                     </a>
-                                    <a href="{{ route('admin.students.edit', $student) }}" class="btn btn-outline-secondary" title="Edit">
+                                    <a href="{{ route('admin.students.edit', $student) }}" class="btn btn-outline-secondary me-2" title="Edit">
                                         <i class="bi bi-pencil"></i>
                                     </a>
                                     <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $student->id }}" title="Delete">

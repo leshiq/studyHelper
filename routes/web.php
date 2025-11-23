@@ -62,6 +62,15 @@ Route::middleware('auth')->group(function () {
         // Course chat
         Route::get('/{course}/chat', [\App\Http\Controllers\CourseChatController::class, 'index'])->name('chat.index');
         Route::post('/{course}/chat', [\App\Http\Controllers\CourseChatController::class, 'store'])->name('chat.store');
+        
+        // Student quiz routes
+        Route::prefix('{course}/lessons/{lesson}/quizzes')->name('quiz.')->group(function () {
+            Route::get('/{quiz}', [\App\Http\Controllers\Student\QuizController::class, 'show'])->name('show');
+            Route::post('/{quiz}/start', [\App\Http\Controllers\Student\QuizController::class, 'start'])->name('start');
+            Route::get('/{quiz}/attempts/{attempt}', [\App\Http\Controllers\Student\QuizController::class, 'take'])->name('take');
+            Route::post('/{quiz}/attempts/{attempt}/submit', [\App\Http\Controllers\Student\QuizController::class, 'submit'])->name('submit');
+            Route::get('/{quiz}/attempts/{attempt}/result', [\App\Http\Controllers\Student\QuizController::class, 'result'])->name('result');
+        });
     });
 });
 
@@ -72,9 +81,18 @@ Route::prefix('teacher')->name('teacher.')->middleware(['auth', 'teacher'])->gro
     Route::prefix('courses/{course}')->group(function () {
         // Lesson management
         Route::post('lessons', [\App\Http\Controllers\Teacher\CourseLessonController::class, 'store'])->name('courses.lessons.store');
+        Route::get('lessons/{lesson}/edit', [\App\Http\Controllers\Teacher\CourseLessonController::class, 'edit'])->name('courses.lessons.edit');
         Route::put('lessons/{lesson}', [\App\Http\Controllers\Teacher\CourseLessonController::class, 'update'])->name('courses.lessons.update');
         Route::delete('lessons/{lesson}', [\App\Http\Controllers\Teacher\CourseLessonController::class, 'destroy'])->name('courses.lessons.destroy');
         Route::get('lessons/{lesson}/progress', [\App\Http\Controllers\Teacher\CourseLessonController::class, 'showProgress'])->name('courses.lessons.progress');
+        
+        // Quiz management
+        Route::post('lessons/{lesson}/quizzes', [\App\Http\Controllers\Teacher\QuizController::class, 'store'])->name('courses.lessons.quizzes.store');
+        Route::put('lessons/{lesson}/quizzes/{quiz}', [\App\Http\Controllers\Teacher\QuizController::class, 'update'])->name('courses.lessons.quizzes.update');
+        Route::delete('lessons/{lesson}/quizzes/{quiz}', [\App\Http\Controllers\Teacher\QuizController::class, 'destroy'])->name('courses.lessons.quizzes.destroy');
+        Route::post('lessons/{lesson}/quizzes/{quiz}/questions', [\App\Http\Controllers\Teacher\QuizController::class, 'storeQuestion'])->name('courses.lessons.quizzes.questions.store');
+        Route::put('lessons/{lesson}/quizzes/{quiz}/questions/{question}', [\App\Http\Controllers\Teacher\QuizController::class, 'updateQuestion'])->name('courses.lessons.quizzes.questions.update');
+        Route::delete('lessons/{lesson}/quizzes/{quiz}/questions/{question}', [\App\Http\Controllers\Teacher\QuizController::class, 'destroyQuestion'])->name('courses.lessons.quizzes.questions.destroy');
         
         // Enrollment management
         Route::post('enrollments/{enrollment}/approve', [\App\Http\Controllers\Teacher\EnrollmentController::class, 'approve'])->name('courses.enrollments.approve');
@@ -100,6 +118,16 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::get('invitations', [InvitationController::class, 'index'])->name('invitations.index');
     Route::post('invitations/create', [InvitationController::class, 'create'])->name('invitations.create');
     Route::delete('invitations/{invitation}', [InvitationController::class, 'destroy'])->name('invitations.destroy');
+    
+    // Course management
+    Route::get('courses', [\App\Http\Controllers\Admin\CourseManagementController::class, 'index'])->name('courses.index');
+    Route::get('courses/{course}', [\App\Http\Controllers\Admin\CourseManagementController::class, 'show'])->name('courses.show');
+    Route::post('courses/{course}/toggle-active', [\App\Http\Controllers\Admin\CourseManagementController::class, 'toggleActive'])->name('courses.toggle-active');
+    Route::delete('courses/{course}', [\App\Http\Controllers\Admin\CourseManagementController::class, 'destroy'])->name('courses.destroy');
+    Route::get('courses/{course}/lessons/{lesson}', [\App\Http\Controllers\Admin\CourseManagementController::class, 'showLesson'])->name('courses.lessons.show');
+    Route::get('courses/{course}/lessons/{lesson}/quizzes/{quiz}', [\App\Http\Controllers\Admin\CourseManagementController::class, 'showQuiz'])->name('courses.lessons.quizzes.show');
+    Route::get('courses/{course}/lessons/{lesson}/quizzes/{quiz}/attempts/{attempt}', [\App\Http\Controllers\Admin\CourseManagementController::class, 'showAttempt'])->name('courses.lessons.quizzes.attempts.show');
+    Route::delete('courses/{course}/lessons/{lesson}/quizzes/{quiz}/attempts/{attempt}', [\App\Http\Controllers\Admin\CourseManagementController::class, 'destroyAttempt'])->name('courses.lessons.quizzes.attempts.destroy');
 });
 
 // Superuser routes
