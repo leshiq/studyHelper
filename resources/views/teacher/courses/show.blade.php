@@ -93,9 +93,26 @@
                                                 <i class="bi bi-file-earmark"></i> {{ $lesson->file->title }}
                                             </small>
                                         @endif
+                                        
+                                        @if(isset($lessonStats[$lesson->id]) && $approvedStudents->count() > 0)
+                                            @php $stats = $lessonStats[$lesson->id]; @endphp
+                                            <div class="mt-3 d-flex align-items-center justify-content-between">
+                                                <small class="text-muted">
+                                                    <i class="bi bi-bar-chart"></i> Student Progress: 
+                                                    <strong class="text-success">{{ $stats['completed'] }}</strong> completed · 
+                                                    <strong class="text-primary">{{ $stats['in_progress'] }}</strong> in progress · 
+                                                    <strong class="text-muted">{{ $stats['not_started'] }}</strong> not started · 
+                                                    <strong>{{ $approvedStudents->count() }}</strong> total
+                                                </small>
+                                                <a href="{{ route('teacher.courses.lessons.progress', [$course, $lesson]) }}" 
+                                                   class="btn btn-sm btn-outline-secondary">
+                                                    <i class="bi bi-list-check"></i> View Details
+                                                </a>
+                                            </div>
+                                        @endif
                                     </div>
                                     <div class="btn-group ms-2">
-                                        <button type="button" class="btn btn-sm btn-outline-primary" 
+                                        <button type="button" class="btn btn-sm btn-outline-primary me-2" 
                                                 data-bs-toggle="modal" 
                                                 data-bs-target="#editLessonModal{{ $lesson->id }}">
                                             <i class="bi bi-pencil"></i>
@@ -106,7 +123,7 @@
                                               class="d-inline">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-outline-danger">
+                                            <button type="submit" class="btn btn-sm btn-outline-danger px-2">
                                                 <i class="bi bi-trash"></i>
                                             </button>
                                         </form>
@@ -223,10 +240,32 @@
                             @foreach($approvedStudents as $student)
                             <div class="list-group-item px-0">
                                 <div class="d-flex justify-content-between align-items-start">
-                                    <div>
+                                    <div class="flex-grow-1">
                                         <strong>{{ $student->name }}</strong>
                                         <br>
                                         <small class="text-muted">{{ $student->email }}</small>
+                                        
+                                        @php
+                                            $studentProgress = $course->lessons->flatMap->progress->where('student_id', $student->id);
+                                            $totalLessons = $course->lessons->count();
+                                            $completedLessons = $studentProgress->where('is_completed', true)->count();
+                                            $overallProgress = $totalLessons > 0 ? round(($completedLessons / $totalLessons) * 100) : 0;
+                                        @endphp
+                                        
+                                        @if($totalLessons > 0)
+                                            <div class="mt-2">
+                                                <small class="text-muted d-block mb-1">
+                                                    {{ $completedLessons }}/{{ $totalLessons }} lessons completed
+                                                </small>
+                                                <div class="progress" style="height: 6px;">
+                                                    <div class="progress-bar bg-success" 
+                                                         role="progressbar" 
+                                                         style="width: {{ $overallProgress }}%"
+                                                         title="{{ $overallProgress }}% complete">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endif
                                     </div>
                                     <form action="{{ route('teacher.courses.students.remove', [$course, $student]) }}" 
                                           method="POST" 
@@ -251,7 +290,7 @@
                     <h5 class="mb-0"><i class="bi bi-chat-dots"></i> Course Discussion</h5>
                 </div>
                 <div class="card-body p-0">
-                    <div id="chatMessages" class="p-3" style="height: 400px; overflow-y: auto; background-color: var(--bs-secondary-bg);">
+                    <div id="chatMessages" class="p-3 bg-light" style="height: 400px; overflow-y: auto;">
                         <div class="text-center text-muted">
                             <div class="spinner-border spinner-border-sm" role="status">
                                 <span class="visually-hidden">Loading...</span>

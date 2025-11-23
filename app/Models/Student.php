@@ -86,4 +86,9 @@ class Student extends Authenticatable
             ->withPivot('approved_at', 'approved_by')
             ->withTimestamps();
     }
+
+    public function lessonProgress()
+    {
+        return $this->hasMany(LessonProgress::class);
+    }
 }

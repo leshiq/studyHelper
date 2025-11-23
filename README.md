@@ -299,6 +299,66 @@ For issues or questions about this platform, please refer to the Laravel documen
 
 ## Changelog
 
+### Version 1.4.0 (November 23, 2025)
+
+**Video Progress Tracking System**
+- Real-time watch time tracking for all course videos
+- Progress saved automatically every 10 seconds during playback
+- Progress saved on pause, video end, and page unload events
+- Reliable progress tracking using navigator.sendBeacon API
+- Video duration and watch time stored in database
+- Automatic completion marking at 90% watched
+- Last watched timestamp tracking
+
+**Student Progress Display**
+- Progress bars showing percentage completed for each lesson
+- Formatted watch time display (HH:MM:SS format)
+- Completion badges for finished lessons
+- "Resume Video" vs "Watch Video" button text based on progress
+- Real-time progress updates without page refresh
+
+**Teacher Analytics Dashboard**
+- Per-lesson student progress statistics
+- Completed/in-progress/not-started student counts
+- Total enrolled students count
+- Detailed progress view for each lesson
+- Individual student progress tracking page
+- Student avatar display with fallback initials
+- Last watched timestamps for monitoring engagement
+- Sortable student list with progress visualization
+
+**WebSocket & Broadcasting Fixes**
+- Fixed Laravel Reverb broadcasting configuration
+- Corrected internal vs external WebSocket URLs
+- Fixed HTTP/HTTPS scheme for server-side broadcasting
+- Broadcast now uses localhost:8080 (HTTP) internally
+- Client connections use public domain with HTTPS
+- WebSocket test page now fully functional
+- Course chat message broadcasting working correctly
+
+**UI/UX Improvements**
+- Fixed login page background gradient display
+- Improved chat message bubble styling with borders
+- Fixed chat container background colors
+- Added proper padding to icon-only button groups
+- Removed redundant progress bars from teacher course view
+- Cleaner teacher interface with "View Details" buttons
+- Consistent styling across all user roles
+
+**Database Schema**
+- New `lesson_progress` table for tracking video watch time
+- Unique constraint on student + lesson combination
+- Nullable video duration and completion timestamp
+- Proper foreign key relationships and indexes
+
+**API Endpoints**
+- POST `/api/lesson-progress` - Update video watch progress
+- GET `/teacher/courses/{course}/lessons/{lesson}/progress` - View detailed progress
+- Enrollment validation before saving progress
+- Automatic completion detection at 90% threshold
+
+---
+
 ### Version 1.3.1 (November 23, 2025)
 
 **Developer Experience Improvements**

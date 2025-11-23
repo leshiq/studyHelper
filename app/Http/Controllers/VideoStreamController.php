@@ -79,6 +79,6 @@ class VideoStreamController extends Controller
         $courseLesson = $file->courseLessons()->with('course')->first();
         $course = $courseLesson ? $courseLesson->course : null;
 
-        return view('watch', compact('file', 'course'));
+        return view('watch', compact('file', 'course', 'courseLesson'));
     }
 }

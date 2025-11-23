@@ -63,10 +63,10 @@
                             <button 
                                 id="connectBtn" 
                                 class="btn btn-success"
-                                data-app-key="{{ env('REVERB_APP_KEY') }}"
-                                data-ws-host="{{ env('REVERB_HOST') }}"
-                                data-ws-port="{{ env('REVERB_PORT') }}"
-                                data-scheme="{{ env('REVERB_SCHEME') }}"
+                                data-app-key="{{ config('reverb.apps.apps.0.key', 'local-key') }}"
+                                data-ws-host="{{ request()->getHost() }}"
+                                data-ws-port="443"
+                                data-scheme="https"
                             >
                                 <i class="bi bi-plug"></i> Connect
                             </button>
@@ -173,16 +173,16 @@
                 <div class="card-body">
                     <dl class="mb-0">
                         <dt class="text-muted small">App ID</dt>
-                        <dd class="mb-2"><code>{{ env('REVERB_APP_ID') }}</code></dd>
+                        <dd class="mb-2"><code>{{ config('reverb.apps.apps.0.id', 'studyhelper') }}</code></dd>
 
                         <dt class="text-muted small">Host</dt>
-                        <dd class="mb-2"><code>{{ env('REVERB_HOST') }}</code></dd>
+                        <dd class="mb-2"><code>{{ request()->getHost() }}</code></dd>
 
                         <dt class="text-muted small">Port</dt>
-                        <dd class="mb-2"><code>{{ env('REVERB_PORT') }}</code></dd>
+                        <dd class="mb-2"><code>443 (HTTPS)</code></dd>
 
                         <dt class="text-muted small">Scheme</dt>
-                        <dd class="mb-2"><code>{{ env('REVERB_SCHEME') }}</code></dd>
+                        <dd class="mb-2"><code>https</code></dd>
 
                         <dt class="text-muted small">Server Status</dt>
                         <dd class="mb-0">
@@ -206,7 +206,7 @@
                     <p class="small mb-2 mt-3">Or with debug output:</p>
                     <pre class="small bg-dark text-light p-2 rounded"><code>php artisan reverb:start --debug</code></pre>
                     
-                    <p class="small text-muted mb-0 mt-2">Server will run on port {{ env('REVERB_PORT', 8080) }}</p>
+                    <p class="small text-muted mb-0 mt-2">Server will run on port 8080</p>
                 </div>
             </div>
 

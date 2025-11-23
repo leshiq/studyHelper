@@ -51,7 +51,39 @@
                                         <h6 class="mb-1">
                                             <span class="badge bg-primary me-2">{{ $lesson->order }}</span>
                                             {{ $lesson->title }}
+                                            @if($enrollment && $lesson->progress->first())
+                                                @php $progress = $lesson->progress->first(); @endphp
+                                                @if($progress->is_completed)
+                                                    <span class="badge bg-success ms-2">
+                                                        <i class="bi bi-check-circle"></i> Completed
+                                                    </span>
+                                                @endif
+                                            @endif
                                         </h6>
+                                        
+                                        @if($enrollment && $lesson->progress->first())
+                                            @php $progress = $lesson->progress->first(); @endphp
+                                            <div class="mb-2">
+                                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                                    <small class="text-muted">
+                                                        Progress: {{ $progress->progress_percentage }}%
+                                                        @if($progress->formatted_watch_time)
+                                                            · {{ $progress->formatted_watch_time }} watched
+                                                        @endif
+                                                    </small>
+                                                </div>
+                                                <div class="progress" style="height: 6px;">
+                                                    <div class="progress-bar {{ $progress->is_completed ? 'bg-success' : 'bg-primary' }}" 
+                                                         role="progressbar" 
+                                                         style="width: {{ $progress->progress_percentage }}%"
+                                                         aria-valuenow="{{ $progress->progress_percentage }}" 
+                                                         aria-valuemin="0" 
+                                                         aria-valuemax="100">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endif
+                                        
                                         @if($lesson->description)
                                             <p class="mb-2 small">{{ $lesson->description }}</p>
                                         @endif
@@ -60,7 +92,12 @@
                                                 @if($enrollment)
                                                     @if(Str::startsWith($lesson->file->mime_type, 'video/'))
                                                         <a href="{{ route('video.watch', $lesson->file) }}" class="btn btn-sm btn-primary me-2">
-                                                            <i class="bi bi-play-circle"></i> Watch Video
+                                                            <i class="bi bi-play-circle"></i> 
+                                                            @if($lesson->progress->first() && $lesson->progress->first()->watch_time_seconds > 0)
+                                                                Resume Video
+                                                            @else
+                                                                Watch Video
+                                                            @endif
                                                         </a>
                                                     @endif
                                                     <a href="{{ route('file.download', $lesson->file) }}" class="btn btn-sm btn-outline-primary">
@@ -152,7 +189,7 @@
                     <h5 class="mb-0"><i class="bi bi-chat-dots"></i> Course Discussion</h5>
                 </div>
                 <div class="card-body p-0">
-                    <div id="chatMessages" class="p-3" style="height: 400px; overflow-y: auto; background-color: var(--bs-secondary-bg);">
+                    <div id="chatMessages" class="p-3 bg-light" style="height: 400px; overflow-y: auto;">
                         <div class="text-center text-muted">
                             <div class="spinner-border spinner-border-sm" role="status">
                                 <span class="visually-hidden">Loading...</span>

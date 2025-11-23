@@ -11,16 +11,16 @@
     const courseId = chatForm.dataset.courseId;
     const currentUserId = parseInt(chatForm.dataset.userId);
     
-    // Pusher setup
-    const pusher = new Pusher('studyhelper-key', {
-        wsHost: 'studyhelper.iforlive.com',
+    // Pusher setup for Laravel Reverb
+    const pusher = new Pusher('local-key', {
+        wsHost: window.location.hostname,
         wsPort: 443,
         wssPort: 443,
         forceTLS: true,
         encrypted: true,
         disableStats: true,
         enabledTransports: ['ws', 'wss'],
-        cluster: 'mt1'
+        cluster: 'mt1' // Required by Pusher client even if not used
     });
 
     // Connection event listeners
@@ -95,7 +95,7 @@
                             <strong>${escapeHtml(data.student.name)}</strong>
                             <span class="ms-2">${new Date(data.created_at).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'})}</span>
                         </div>
-                        <div class="p-2 rounded ${isOwnMessage ? 'bg-primary text-white' : 'bg-body-secondary'}" style="word-wrap: break-word;">
+                        <div class="p-2 rounded ${isOwnMessage ? 'bg-primary text-white' : 'bg-light border'}" style="word-wrap: break-word;">
                             ${escapeHtml(data.message)}
                         </div>
                     </div>

@@ -64,4 +64,21 @@ class CourseLessonController extends Controller
 
         return back()->with('success', 'Lesson deleted successfully.');
     }
+
+    public function showProgress(Course $course, CourseLesson $lesson)
+    {
+        if ($course->teacher_id !== Auth::id() && !Auth::user()->is_admin && !Auth::user()->is_superuser) {
+            abort(403);
+        }
+
+        // Get all approved students with their progress for this lesson
+        $students = $course->approvedStudents()
+            ->with(['lessonProgress' => function($query) use ($lesson) {
+                $query->where('course_lesson_id', $lesson->id);
+            }])
+            ->orderBy('name')
+            ->get();
+
+        return view('teacher.lessons.progress', compact('course', 'lesson', 'students'));
+    }
 }

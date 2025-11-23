@@ -30,6 +30,9 @@
                         <video 
                             id="videoPlayer" 
                             data-file-id="{{ $file->id }}"
+                            @if(isset($courseLesson))
+                            data-lesson-id="{{ $courseLesson->id }}"
+                            @endif
                             controls 
                             controlsList="nodownload"
                             preload="metadata"

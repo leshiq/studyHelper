@@ -26,7 +26,7 @@
                             <strong>Current Version:</strong>
                         </div>
                         <div class="col-md-6">
-                            <span class="badge bg-primary fs-6">v1.3.1</span>
+                            <span class="badge bg-primary fs-6">v1.4.0</span>
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -151,6 +151,10 @@
                         <li class="mb-2">
                             <i class="bi bi-check-circle-fill text-success"></i>
                             <strong>Video Streaming:</strong> Context-aware video player with course navigation
+                        </li>
+                        <li class="mb-2">
+                            <i class="bi bi-check-circle-fill text-success"></i>
+                            <strong>Video Progress Tracking:</strong> Real-time watch time tracking with detailed analytics
                         </li>
                     </ul>
                 </div>

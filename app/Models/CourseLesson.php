@@ -31,4 +31,18 @@ class CourseLesson extends Model
     {
         return $this->belongsTo(DownloadableFile::class, 'downloadable_file_id');
     }
+
+    public function progress()
+    {
+        return $this->hasMany(LessonProgress::class);
+    }
+
+    /**
+     * Get progress for a specific student
+     */
+    public function progressForStudent($studentId)
+    {
+        return $this->hasOne(LessonProgress::class)
+            ->where('student_id', $studentId);
+    }
 }

@@ -28,15 +28,26 @@
             @endif
         }
         
-        /* Apply background image styles if set */
-        @if($loginBgImage)
-            body {
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            @if($loginBgImage)
                 background-image: var(--login-bg) !important;
                 background-size: cover !important;
                 background-position: center !important;
                 background-repeat: no-repeat !important;
-            }
-        @endif
+            @elseif($loginBgGradient)
+                background: {{ $loginBgGradient }} !important;
+            @else
+                background: {{ $loginBgColor }} !important;
+            @endif
+            display: flex;
+            flex-direction: column;
+        }
     </style>
     
     @vite(['resources/css/app.css', 'resources/js/app.js'])

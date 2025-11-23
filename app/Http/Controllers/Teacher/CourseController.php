@@ -50,6 +50,7 @@ class CourseController extends Controller
 
         $course->load([
             'lessons.file',
+            'lessons.progress.student',
             'enrollments.student',
             'teacher'
         ]);
@@ -58,7 +59,23 @@ class CourseController extends Controller
         $pendingEnrollments = $course->pendingEnrollments()->with('student')->get();
         $approvedStudents = $course->approvedStudents()->get();
 
-        return view('teacher.courses.show', compact('course', 'availableFiles', 'pendingEnrollments', 'approvedStudents'));
+        // Calculate lesson statistics
+        $lessonStats = [];
+        foreach ($course->lessons as $lesson) {
+            $totalStudents = $approvedStudents->count();
+            $completedCount = $lesson->progress->where('is_completed', true)->count();
+            $inProgressCount = $lesson->progress->where('is_completed', false)->where('watch_time_seconds', '>', 0)->count();
+            $notStartedCount = $totalStudents - $completedCount - $inProgressCount;
+            
+            $lessonStats[$lesson->id] = [
+                'completed' => $completedCount,
+                'in_progress' => $inProgressCount,
+                'not_started' => $notStartedCount,
+                'completion_rate' => $totalStudents > 0 ? round(($completedCount / $totalStudents) * 100, 1) : 0,
+            ];
+        }
+
+        return view('teacher.courses.show', compact('course', 'availableFiles', 'pendingEnrollments', 'approvedStudents', 'lessonStats'));
     }
 
     public function edit(Course $course)

@@ -48,7 +48,10 @@ class CourseController extends Controller
         }
 
         $course->load(['teacher', 'lessons' => function($query) {
-            $query->where('is_published', true)->with('file');
+            $query->where('is_published', true)
+                ->with(['file', 'progress' => function($q) {
+                    $q->where('student_id', Auth::id());
+                }]);
         }]);
 
         return view('student.courses.show', compact('course', 'enrollment'));

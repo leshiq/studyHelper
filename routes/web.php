@@ -14,6 +14,11 @@ use App\Http\Controllers\Superuser\DashboardController as SuperuserDashboardCont
 use App\Http\Controllers\Superuser\UserManagementController;
 use Illuminate\Support\Facades\Route;
 
+// API routes for AJAX requests
+Route::middleware('auth')->prefix('api')->name('api.')->group(function () {
+    Route::post('/lesson-progress', [\App\Http\Controllers\Api\LessonProgressController::class, 'update'])->name('lesson-progress.update');
+});
+
 // Public routes
 Route::get('/', function () {
     return redirect('/login');
@@ -69,6 +74,7 @@ Route::prefix('teacher')->name('teacher.')->middleware(['auth', 'teacher'])->gro
         Route::post('lessons', [\App\Http\Controllers\Teacher\CourseLessonController::class, 'store'])->name('courses.lessons.store');
         Route::put('lessons/{lesson}', [\App\Http\Controllers\Teacher\CourseLessonController::class, 'update'])->name('courses.lessons.update');
         Route::delete('lessons/{lesson}', [\App\Http\Controllers\Teacher\CourseLessonController::class, 'destroy'])->name('courses.lessons.destroy');
+        Route::get('lessons/{lesson}/progress', [\App\Http\Controllers\Teacher\CourseLessonController::class, 'showProgress'])->name('courses.lessons.progress');
         
         // Enrollment management
         Route::post('enrollments/{enrollment}/approve', [\App\Http\Controllers\Teacher\EnrollmentController::class, 'approve'])->name('courses.enrollments.approve');
